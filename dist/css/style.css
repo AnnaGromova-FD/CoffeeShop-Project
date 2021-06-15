@@ -10,17 +10,25 @@ a {
 
 .container {
   max-width: 750px;
-  margin: 0 auto; }
+  margin: 0 auto;
+  padding: 0 10px; }
 
 .title {
   font-size: 40px;
   font-weight: 700;
   text-align: center; }
 
+.line {
+  width: 240px;
+  height: 1px;
+  background: #000;
+  margin: 0 auto 20px; }
+
 .header {
   position: relative;
   margin: 0 auto;
   background: url("../img/main-page/desk-791178_1920.jpg") center right/cover no-repeat;
+  background-attachment: fixed;
   max-width: 1440px;
   width: 1440px;
   height: 640px;
@@ -110,8 +118,7 @@ a {
 .coffee-block {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  padding-bottom: 50px; }
+  justify-content: space-between; }
 
 .coffee__item {
   width: 220px;
@@ -154,11 +161,16 @@ a {
   height: 355px;
   filter: drop-shadow(5px 5px 30px rgba(0, 0, 0, 0.25)); }
 
-.line {
-  width: 240px;
-  height: 1px;
-  background: #000;
-  margin: 0 auto; }
+.calculating {
+  position: relative;
+  margin: 0 auto;
+  background: url("../img/main-page/img-5.jpeg") center right/cover no-repeat;
+  background-attachment: fixed;
+  max-width: 1440px;
+  width: 1440px;
+  height: 540px;
+  color: white;
+  margin-bottom: 30px; }
 
 .filter-wrap {
   display: flex;
@@ -170,7 +182,7 @@ a {
 .filter-wrap input {
   width: 180px;
   height: 30px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
   border-radius: 4px;
   padding: 0 30px;
@@ -193,7 +205,7 @@ a {
 .country-tab {
   width: 75px;
   height: 30px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 4px 4px 20px rgba(0, 0, 0, 0.25);
   border-radius: 4px 0px 0px 4px;
   font-size: 12px;
@@ -205,6 +217,30 @@ a {
 .coffee__item-country-name {
   text-align: right;
   font-size: 14px; }
+
+.promotion-container {
+  display: flex;
+  max-width: 1140px;
+  margin-bottom: 20px; }
+
+.promotion__block {
+  flex-basis: 50%;
+  margin-right: 15px; }
+
+.subtitle-left {
+  padding-top: 10px;
+  text-align: left; }
+
+.subtitle-right {
+  padding-top: 10px;
+  text-align: right; }
+
+.promotion__descr {
+  max-width: 80%; }
+
+.timer {
+  display: flex;
+  justify-content: flex-end; }
 
 .footer {
   height: 150px;
