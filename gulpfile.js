@@ -90,7 +90,7 @@ gulp.task("prod", () => {
         .pipe(webpack({
             mode: 'production',
             output: {
-                filename: 'script.js'
+                filename: 'main.js'
             },
             module: {
                 rules: [
