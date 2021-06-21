@@ -1,0 +1,14 @@
+.subtitle-black {
+  font-size: 24px;
+  line-height: 35px;
+  text-align: center;
+  padding-top: 60px;
+  margin-bottom: 20px;
+  color: black;
+  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2), 30px -5px 35px rgba(255, 255, 255, 0.3); }
+
+.subtitle__descr {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 80px;
+  margin-bottom: 100px; }
