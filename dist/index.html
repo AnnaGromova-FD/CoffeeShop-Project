@@ -14,9 +14,9 @@
         <div class="header__logo">
         </div>
         <nav class="header__links">
-            <a href="#">Coffee house</a>
-            <a href="#">Our coffee</a>
-            <a href="#">Select coffee</a>
+            <a href="#promotion">Promotion</a>
+            <a href="#our-coffee">Our coffee</a>
+            <a href="#select-coffee">Select coffee</a>
         </nav>
     </div>
     <div class="title-block">
@@ -120,46 +120,54 @@
 </section>
 
 <section class="calculating">
-
-    <div class="container">
-        <div class="subtitle-9pt">Lets select coffee to suit your personal taste
+    <div class=" container calc-container">
+        <div class="title-no-anim" id="select-coffee">Lets select coffee to suit your personal taste
         </div>
         <div class="calculating__field">
             <div class="calculating__subtitle">
-                Ваш пол
+                How do you usually brew your coffee?
             </div>
-            <div class="calculating__choose" id="gender">
-                <div class="calculating__choose-item calculating__choose-item_active">Женщина</div>
-                <div class="calculating__choose-item">Мужчина</div>
-            </div>
-
-            <div class="calculating__subtitle">
-                Ваша конституция
-            </div>
-            <div class="calculating__choose calculating__choose_medium">
-                <input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
-                <input type="text" id="weight" placeholder="Введите вес"  class="calculating__choose-item">
-                <input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
+            <div class="calculating__choose">
+                <div id="press" class="calculating__choose-item calculating__choose-item_active">French Press</div>
+                <div id="machine" class="calculating__choose-item">Espresso machine</div>
+                <div id="cazve" class="calculating__choose-item">Cezve</div>
             </div>
 
             <div class="calculating__subtitle">
-                Выберите вашу физическая активность
+                What do you add to your coffee?
             </div>
-            <div class="calculating__choose calculating__choose_big">
-                <div id="low" class="calculating__choose-item">Низкая активность </div>
-                <div id="small"  class="calculating__choose-item calculating__choose-item_active">Невысокая активность</div>
-                <div id="medium" class="calculating__choose-item">Умеренная активность</div>
-                <div id="high" class="calculating__choose-item">Высокая активность</div>
+            <div class="calculating__choose ">
+                <div id ="milk" class="calculating__choose-item calculating__choose-item_active">Milk</div>
+                <div id="sugar" class="calculating__choose-item">Sugar</div>
+                <div id="syrop" class="calculating__choose-item">Syrop</div>
+                <div id="nothing" class="calculating__choose-item">Nothing</div>
             </div>
 
-            <div class="calculating__divider"></div>
+            <div class="calculating__subtitle">
+                Preffeered coffee roast level
+            </div>
+            <div class="calculating__choose ">
+                <div id="light" class="calculating__choose-item">Light</div>
+                <div id="medium"  class="calculating__choose-item calculating__choose-item_active">Medium</div>
+                <div id="dark" class="calculating__choose-item">Dark</div>
+            </div>
+
+            <div class="calculating__subtitle">
+                What coffee flavour do you preffer?
+            </div>
+            <div class="calculating__choose">
+                <div id="bitter" class="calculating__choose-item">Bitter</div>
+                <div id="sweet"  class="calculating__choose-item calculating__choose-item_active">Sweet</div>
+                <div id="sour" class="calculating__choose-item">Sour</div>
+                <div id="solty" class="calculating__choose-item">Solty</div>
+                <div id="nots" class="calculating__choose-item">Not sure</div>
+            </div>
+
+            <div class="line"></div>
 
             <div class="calculating__total">
-                <div class="calculating__subtitle">
-                    Ваша суточная норма калорий:
-                </div>
-                <div class="calculating__result">
-                    <span>2700</span> ккал
+                <div class="title-no-anim">
+                    We recommend:
                 </div>
             </div>
         </div>
@@ -170,6 +178,8 @@
 
 <section class="catalog">
     <div class="container">
+        <div class="subtitle-black" id="our-coffee">Our coffee
+        </div>
         <div class="filter-wrap _anim-items _anim-no-hide">
             <div class="search">
                 <label for="search">Looking for</label>
@@ -186,7 +196,7 @@
             </div>
         </div>
         <div class="coffee-block">
-            <div class="coffee__item brasil" data-filter="brasil">
+            <div class="coffee__item brasil">
                 <img src="img/tabs/solimo_2pack.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Solimo Coffee Beans 2 kg
@@ -199,7 +209,7 @@
                     <div class="coffee__item-price">10.73$</div> 
                 </div>
             </div>
-            <div class="coffee__item kenya" data-filter="kenya">
+            <div class="coffee__item kenya">
                 <img src="img/tabs/presto.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Presto Coffee Beans 1 kg
@@ -212,7 +222,7 @@
                     <div class="coffee__item-price">15.99$</div> 
                 </div>
             </div>
-            <div class="coffee__item brasil" data-filter="brasil">
+            <div class="coffee__item brasil">
                 <img src="img/tabs/aromistico.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     AROMISTICO Coffee 1 kg
@@ -225,7 +235,7 @@
                     <div class="coffee__item-price">6.99$</div> 
                 </div>
             </div>
-            <div class="coffee__item columbia" data-filter="columbia">
+            <div class="coffee__item columbia">
                 <img src="img/tabs/solimo_2pack.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Solimo Coffee Beans 2 kg
@@ -238,7 +248,7 @@
                     <div class="coffee__item-price">10.73$</div> 
                 </div>
             </div>
-            <div class="coffee__item brasil" data-filter="brasil">
+            <div class="coffee__item brasil" >
                 <img src="img/tabs/presto.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Presto Coffee Beans 1 kg
@@ -251,7 +261,7 @@
                     <div class="coffee__item-price">15.99$</div> 
                 </div>
             </div>
-            <div class="coffee__item kenya" data-filter="kenya">
+            <div class="coffee__item kenya">
                 <img src="img/tabs/aromistico.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     AROMISTICO Coffee 1 kg
@@ -270,7 +280,7 @@
 
 <div class="line"></div>
 
-<section class="promotion">
+<section class="promotion" id="promotion">
     <div class="container promotion-container">
         <div class="promotion__block _anim-items _anim-no-hide">
             <div class="subtitle-black subtitle-left">New customer promotion!</div>
@@ -344,65 +354,8 @@
                 <button class="btn btn-modal">Go to coffee page</button>
             </div>
         </div>
-    </div>
-        
-        
-    </div> 
-
-    
-
-
-
-    
-               
-    <!-- <div class="calculating">
-        <div class="container">
-            <h2 class="title">Рассчитаем вашу потребность в калориях?
-            </h2>
-            <div class="calculating__field">
-                <div class="calculating__subtitle">
-                    Ваш пол
-                </div>
-                <div class="calculating__choose" id="gender">
-                    <div class="calculating__choose-item calculating__choose-item_active">Женщина</div>
-                    <div class="calculating__choose-item">Мужчина</div>
-                </div>
-
-                <div class="calculating__subtitle">
-                    Ваша конституция
-                </div>
-                <div class="calculating__choose calculating__choose_medium">
-                    <input type="text" id="height" placeholder="Введите рост" class="calculating__choose-item">
-                    <input type="text" id="weight" placeholder="Введите вес"  class="calculating__choose-item">
-                    <input type="text" id="age" placeholder="Введите возраст" class="calculating__choose-item">
-                </div>
-
-                <div class="calculating__subtitle">
-                    Выберите вашу физическая активность
-                </div>
-                <div class="calculating__choose calculating__choose_big">
-                    <div id="low" class="calculating__choose-item">Низкая активность </div>
-                    <div id="small"  class="calculating__choose-item calculating__choose-item_active">Невысокая активность</div>
-                    <div id="medium" class="calculating__choose-item">Умеренная активность</div>
-                    <div id="high" class="calculating__choose-item">Высокая активность</div>
-                </div>
-
-                <div class="calculating__divider"></div>
-
-                <div class="calculating__total">
-                    <div class="calculating__subtitle">
-                        Ваша суточная норма калорий:
-                    </div>
-                    <div class="calculating__result">
-                        <span>2700</span> ккал
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    
-<!-- // -->
+    </div>   
+</div> 
 
     
 

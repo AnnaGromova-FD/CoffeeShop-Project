@@ -133,6 +133,7 @@ a {
   color: #ffffff;
   font-size: 12px;
   margin-right: 10px;
+  line-height: 20px;
 }
 
 .title-block {
@@ -207,6 +208,7 @@ a {
 .coffee-block {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
   gap: 1.5em;
 }
 
@@ -266,16 +268,74 @@ a {
   filter: drop-shadow(5px 5px 30px rgba(0, 0, 0, 0.25));
 }
 
+/* ******************** CALCULATING *********************** */
 .calculating {
   position: relative;
   margin: 0 auto;
   background: url("../img/main-page/img-5.jpeg") center right/cover no-repeat;
   background-attachment: fixed;
   max-width: 1440px;
-  height: 540px;
+  min-height: 640px;
   color: white;
   margin-bottom: 30px;
 }
+
+.calc-container {
+  max-width: 980px;
+}
+
+.title-no-anim {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  padding-top: 20px;
+}
+
+.calculating__choose {
+  position: relative;
+  display: flex;
+  width: 930px;
+  justify-content: space-evenly;
+  margin: 30px auto 0 auto;
+}
+
+.calculating__choose:nth-child(2n+1) {
+  justify-content: space-around;
+}
+
+.calculating__choose-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 45px;
+  padding: 0 10px;
+  margin-bottom: 15px;
+  background: #FFFFFF;
+  box-shadow: 0px 4px 15px rgb(0 0 0 / 20%);
+  border: none;
+  text-align: center;
+  font-size: 14px;
+  cursor: pointer;
+  outline: none;
+  color: darkslategrey;
+  transition: 0.3s all;
+}
+
+.calculating__subtitle {
+  text-align: center;
+  font-size: 18px;
+  font-weight: bolder;
+  margin-bottom: 30px;
+}
+
+.calculating__total {
+  display: flex;
+  justify-content: center;
+}
+
+/* *********** FILTER *****************    */
 
 .filter-wrap {
   display: flex;
@@ -415,10 +475,6 @@ a {
 .promotion__timer.active {
   opacity: 1;
   transform: translate3d(0, 0, 0);
-}
-
-.title {
-  text-align: right;
 }
 
 .timer {
@@ -621,6 +677,17 @@ a {
     max-width: 450px;
     min-width: 410px;
   }
+
+  .filter-wrap {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
+
+  .search {
+    margin-bottom: 15px;
+  }
 }
 
 @media all and (max-width: 712px) {
@@ -643,21 +710,9 @@ a {
   .coffee-block {
     max-width: 453px;
     margin: 0 auto;
-    justify-content: center;
   }
 
   .coffee__item {
     margin-bottom: 30px;
-  }
-
-  .filter-wrap {
-    flex-direction: column;
-    align-items: center;
-    margin-top: 0;
-    margin-bottom: 20px;
-  }
-
-  .search {
-    margin-bottom: 15px;
   }
 }

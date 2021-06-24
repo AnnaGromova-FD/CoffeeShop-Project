@@ -125,18 +125,19 @@ document.addEventListener('keydown', (event) => {
 
 //  Filter by country origin
 
-const countryParent = document.querySelector('.country-wrap');
-
-// countryParent.addEventListener('click', function(event) {
-//     const target = event.target;
-    
-//     target.classList.toggle('active');
-// });
-
 function filterByCountry () {
     const countryBtn = document.querySelectorAll('.country-tab'),
     coffeeItem = document.querySelectorAll('.coffee__item');
+
+    countryBtn.forEach(button => {
+        button.addEventListener('click', () => {
+            const currentCategory = button.dataset.filter;
+            button.classList.toggle('active');
+            filter(currentCategory, coffeeItem);
     
+        });
+    });
+
     function filter (category, items) {
         items.forEach(item => {
             const isItemFiltered = !item.classList.contains(category),
@@ -148,65 +149,9 @@ function filterByCountry () {
             }
         });
     }
-
-    countryBtn.forEach(button => {
-        button.addEventListener('click', () => {
-            const currentCategory = button.dataset.filter;
-            button.classList.toggle('active');
-            filter(currentCategory, coffeeItem);
-    
-        });
-    });
 }
 
 filterByCountry();
-
-
-        // isFedor['Пользователь с именем Федор'] = users.filter(item => item.name.startsWith('Fedor'));
-        // 
-        // if(target && target.classList.contains('country-tab')) {
-        //     tabs.forEach((item, i) => {
-        //         if (target == item) {
-        //             hideTabContent();
-        //             showTabContent(i);
-        //         }
-        //     });
-        // }
-    
-        // // target.dataset.country === 'kenya')
-        // if(target && target.classList.contains('country-tab')) {
-        //     tabs.forEach((item, i) => {
-        //         if (target == item) {
-        //             hideTabContent();
-        //             showTabContent(i);
-        //         }
-        //     });
-        // }
-    
-        // if(target && target.classList.contains('country-tab')) {
-        //     tabs.forEach((item, i) => {
-        //         if (target == item) {
-        //             hideTabContent();
-        //             showTabContent(i);
-        //         }
-        //     });
-        // }
-    
-    
-// function hideTabContent() {
-//     // tabsContent.forEach(item => item.classList.remove('show', 'fade'));
-
-    
-// }
-
-// function showTabContent(i = 0) {
-//     tabsContent[i].classList.add('show', 'fade');
-//     tabsContent[i].classList.remove('hide');
-//     tabs[i].classList.add('active');
-// }
-    
-// hideTabContent();
-// showTabContent();
 
 
 // Calculator
