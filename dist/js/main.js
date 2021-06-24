@@ -139,8 +139,9 @@ function filterByCountry () {
     
     function filter (category, items) {
         items.forEach(item => {
-            const isItemFiltered = !item.classList.contains(category);
-            if (isItemFiltered) {
+            const isItemFiltered = !item.classList.contains(category),
+                  isShowAll = category.toLowerCase() === 'all';
+            if (isItemFiltered && !isShowAll) {
                 item.classList.add('hide', 'fade');
             } else {
                 item.classList.remove('hide');

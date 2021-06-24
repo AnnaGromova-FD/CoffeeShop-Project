@@ -83,10 +83,6 @@ a {
   display: none;
 }
 
-/* .show {
-  display: block;
-} */
-
 .fade {
   animation-name: fade;
   animation-duration: 1, 5s;
@@ -94,9 +90,11 @@ a {
 
 @keyframes fade {
   from {
+    transform: scale(1);
     opacity: 0.1;
   }
   to {
+    transform: scale(0);
     opacity: 1;
   }
 }
@@ -247,7 +245,6 @@ a {
 .about-our-beans {
   min-height: 450px;
   margin: 70px 70px 0 70px;
-  animation: fadeInUp 1.6s ease-in-out;
 }
 
 .about-our-beans-wrapper {
