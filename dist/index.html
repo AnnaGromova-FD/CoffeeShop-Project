@@ -16,7 +16,7 @@
         <nav class="header__links">
             <a href="#">Coffee house</a>
             <a href="#">Our coffee</a>
-            <a href="#">For your pleasure</a>
+            <a href="#">Select coffee</a>
         </nav>
     </div>
     <div class="title-block">
@@ -171,9 +171,11 @@
 <section class="catalog">
     <div class="container">
         <div class="filter-wrap _anim-items _anim-no-hide">
-            <label for="search">Lookiing for</label>
-            <input type="text" name="search" id="search" placeholder="start typing here...">
-            <div class="filter"><span>Or filter</span>
+            <div class="search">
+                <label for="search">Looking for</label>
+                <input type="text" name="search" id="search" placeholder="start typing here...">
+            </div>
+            <div class="filter"><strong>Or filter</strong>
                 <div class="country-wrap">
                    <div class="country-tab">Brazil</div>
                     <div class="country-tab">Kenya</div>
@@ -183,7 +185,7 @@
             </div>
         </div>
         <div class="coffee-block">
-            <div class="coffee__item data-modal">
+            <div class="coffee__item show fade" data-country="brasil" data-modal">
                 <img src="img/tabs/solimo_2pack.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Solimo Coffee Beans 2 kg
@@ -196,7 +198,7 @@
                     <div class="coffee__item-price">10.73$</div> 
                 </div>
             </div>
-            <div class="coffee__item">
+            <div class="coffee__item show fade" data-country="kenya">
                 <img src="img/tabs/presto.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Presto Coffee Beans 1 kg
@@ -209,12 +211,12 @@
                     <div class="coffee__item-price">15.99$</div> 
                 </div>
             </div>
-            <div class="coffee__item">
+            <div class="coffee__item show fade" data-country="brasil">
                 <img src="img/tabs/aromistico.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     AROMISTICO Coffee 1 kg
                 </h3>
-                <div class="ccoffee__item-country-name">
+                <div class="coffee__item-country-name">
                     Brasil
                 </div>
                 <div class="coffee__item--price-block">
@@ -222,7 +224,7 @@
                     <div class="coffee__item-price">6.99$</div> 
                 </div>
             </div>
-            <div class="coffee__item">
+            <div class="coffee__item show fade" data-country="columbia">
                 <img src="img/tabs/solimo_2pack.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Solimo Coffee Beans 2 kg
@@ -235,7 +237,7 @@
                     <div class="coffee__item-price">10.73$</div> 
                 </div>
             </div>
-            <div class="coffee__item">
+            <div class="coffee__item show fade" data-country="brasil">
                 <img src="img/tabs/presto.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     Presto Coffee Beans 1 kg
@@ -248,7 +250,7 @@
                     <div class="coffee__item-price">15.99$</div> 
                 </div>
             </div>
-            <div class="coffee__item">
+            <div class="coffee__item show fade" data-country="kenya">
                 <img src="img/tabs/aromistico.png" alt="aromistico">
                 <h3 class="coffee__item-subtitle">
                     AROMISTICO Coffee 1 kg
@@ -275,11 +277,11 @@
                 We highly estimate each customer and offer you to become one of them on very profitable terms. 
                 Everyone who orders coffee delivery for a month will receive a discount in the amount of <span>20%!</span>
                 <br><br>
-                The promotion ends on July 10 at 00:00
+                The promotion ends on <strong>July 10 at 00:00</strong>
             </div>
         </div>
         <div class="promotion__timer _anim-items _anim-no-hide">
-            <div class= "subtitle-black subtitle-right">It remains until the end of the action:</div>
+            <div class= "subtitle-black subtitle-right">The promotion ends in:</div>
             <div class="timer">
                 <div class="timer__block">
                     <span id="days">12</span>
@@ -324,7 +326,7 @@
         <div class="modal__content">
             <div class="modal__close" data-close>&times;</div>  
             <div class="modal--img">
-                <img src="img/coffee-page/aromostico_coffee-page.jpg" alt="">
+                <img src="img/coffee-page/aromostico_coffee-page.jpg" alt="aromistico">
             </div>
             <div class="coffee--descr-block">
                 <div class="subtitle-black subtitle-9pt">About it</div>
@@ -338,6 +340,7 @@
                     <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     <p><strong>Price:</strong> <span> 16.99$</span></p>
                 </div>
+                <button class="btn btn-modal">Go to coffee page</button>
             </div>
         </div>
     </div>
@@ -347,106 +350,10 @@
 
     
 
-    <!-- <div class="preview">
-        <div class="bgc_blue"></div>
-        <div class="container">
-            <div class="tabcontainer">
-                <div class="tabcontent">
-                    <img src="img/tabs/vegy.jpg" alt="vegy">
-                    <div class="tabcontent__descr">
-                        Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Для людей, которые интересуются спортом; активных и здоровых. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!
-                    </div>
-                </div> -->
-                <!-- <div class="tabcontent">
-                    <img src="img/tabs/elite.jpg" alt="elite">
-                    <div class="tabcontent__descr">
-                        Меню “Премиум” - мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!                                     
-                    </div>
-                </div> -->
-                <!-- <div class="tabcontent">
-                    <img src="img/tabs/post.jpg" alt="post">
-                    <div class="tabcontent__descr">
-                        Наше специальное “Постное меню” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения. Полная гармония с собой и природой в каждом элементе! Все будет Ом!                                     
-                    </div>
-                </div>
-                <div class="tabcontent">
-                    <img src="img/tabs/vegy.jpg" alt="vegy">
-                    <div class="tabcontent__descr">
-                        Меню "Сбалансированное" - это соответствие вашего рациона всем научным рекомендациям. Мы тщательно просчитываем вашу потребность в к/б/ж/у и создаем лучшие блюда для вас.
-                    </div>
-                </div> -->
-                <!-- <div class="tabheader">
-                    <h3>Выберите стиль питания</h3>
-                    <div class="tabheader__items">
-                        <div class="tabheader__item tabheader__item_active">Фитнес</div>
-                        <div class="tabheader__item">Премиум</div>
-                        <div class="tabheader__item">Постное</div>
-                        <div class="tabheader__item">Сбалансированное</div>
-                    </div>
-                </div>
-            </div>
-            <div class="preview__life">Живи полной жизнью!</div>
-        </div>
-    </div>
 
-    <div class="divider"></div> -->
 
-    <!-- <div class="offer">
-        <div class="bgc_y"></div>
-        <div class="container">
-            <div class="offer__text">
-                <h2 class="title">Что мы можем вам предложить?</h2>
-                <div class="offer__descr">
-                    Наша основная идея - это правильное питание. Оно может быть простым и вкусным. Мы не просто доставка, мы сервис! Мы взяли на себя все расчеты БЖУ, калорийности, объемов порций и прочие важные, но скучные аспекты. Вам остается только полезная, сытная и правильная еда, которую мы привозим прямо под дверь.
-                </div>
-            </div>
-            <div class="offer__action">
-                <button class="btn btn_dark">Связаться с нами</button>
-            </div>
-        </div>
-        <div class="container">
-            <div class="offer__advantages">
-                <h2>Быстро и полезно</h2>
-                <div class="offer__advantages-text">
-                    Готовка дома занимает много сил, времени и нервов. Мы привозим еду сразу на целый день, и ты можешь действовать так, как тебе удобно, не подстраиваясь ни под кого и будучи уверенным в качестве продукта!
-                </div>
-                <h2>Правильный рацион</h2>
-                <div class="offer__advantages-text">
-                    Мы разработали специальное меню, где учтены все нюансы правильного питания, от баланса БЖУ до их приготовления и дробления рациона.
-                </div>
-            </div>
-            <div class="offer__slider">
-                <div class="offer__slider-counter">
-                    <div class="offer__slider-prev">
-                        <img src="icons/left.svg" alt="prev">
-                    </div>
-                    <span id="current">03</span>
-                    /
-                    <span id="total">04</span>
-                    <div class="offer__slider-next">
-                        <img src="icons/right.svg" alt="next">
-                    </div>
-                </div>
-                <div class="offer__slider-wrapper">
-                    <div class="offer__slide">
-                        <img src="img/slider/pepper.jpg" alt="pepper">
-                    </div>
-                    <!-- <div class="offer__slide">
-                        <img src="img/slider/food-12.jpg" alt="food">
-                    </div>
-                    <div class="offer__slide">
-                        <img src="img/slider/olive-oil.jpg" alt="oil">
-                    </div>
-                    <div class="offer__slide">
-                        <img src="img/slider/paprika.jpg" alt="paprika">
-                    </div> -->
-                <!-- </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="divider"></div> --> 
-
+    
+               
     <!-- <div class="calculating">
         <div class="container">
             <h2 class="title">Рассчитаем вашу потребность в калориях?
@@ -493,65 +400,11 @@
         </div>
     </div>
 
-    <div class="divider"></div> -->
-
-    <!-- <div class="menu">
-        <h2 class="title">Наше меню на день</h2>
-
-        <div class="menu__field">
-            <div class="container">
-                <div class="menu__item">
-                    <img src="img/tabs/vegy.jpg" alt="vegy">
-                    <h3 class="menu__item-subtitle">Меню "Фитнес"</h3>
-                    <div class="menu__item-descr">Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!</div>
-                    <div class="menu__item-divider"></div>
-                    <div class="menu__item-price">
-                        <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>229</span> грн/день</div>
-                    </div>
-                </div>
-                <div class="menu__item">
-                    <img src="img/tabs/elite.jpg" alt="elite">
-                    <h3 class="menu__item-subtitle">Меню “Премиум”</h3>
-                    <div class="menu__item-descr">В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!</div>
-                    <div class="menu__item-divider"></div>
-                    <div class="menu__item-price">
-                        <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>550</span> грн/день</div>
-                    </div>
-                </div>
-                <div class="menu__item">
-                    <img src="img/tabs/post.jpg" alt="post">
-                    <h3 class="menu__item-subtitle">Меню "Постное"</h3>
-                    <div class="menu__item-descr">Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков. </div>
-                    <div class="menu__item-divider"></div>
-                    <div class="menu__item-price">
-                        <div class="menu__item-cost">Цена:</div>
-                        <div class="menu__item-total"><span>430</span> грн/день</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="order">
-        <div class="container">
-            <div class="title">Заказывай пробный день прямо сейчас!</div>
-            <form action="#" class="order__form">
-                <input required placeholder="Ваше имя" name="name" type="text" class="order__input">
-                <input required placeholder="Ваш номер телефона" name="phone" type="phone" class="order__input">
-                <img src="icons/right.svg" alt="right">
-                <button class="btn btn_dark btn_min">Перезвонить мне</button>
-            </form>
-        </div>
-    </div>
-
-    <div class="divider"></div>
+    
+<!-- // -->
 
     
-    </footer> -->
 
-
-    <script src="js/main.js"></script>
+    <script src="js/main.js"></script> -->
 </body>
 </html>
