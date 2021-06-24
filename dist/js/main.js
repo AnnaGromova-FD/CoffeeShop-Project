@@ -39,7 +39,7 @@ function animOnScroll() {
 }
 
 // Promotion timer
-const deadline = '2021-06-29';
+const deadline = '2021-07-10';
 
 function getTimeRemaining(endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -58,7 +58,6 @@ function getTimeRemaining(endtime) {
 }
 
 function getZero(num){
-
     return num = (num >= 0 && num < 10) ? `0${num}` : num;
 }
 
@@ -124,63 +123,90 @@ document.addEventListener('keydown', (event) => {
 });
 
 
-// Tabs with filter by country origin
-let tabs = document.querySelectorAll('.country-tab'),
-    tabsContent = document.querySelectorAll('.coffee__item'),
-    tabsParent = document.querySelector('.country-wrap');
+//  Filter by country origin
 
-function hideTabContent() {
-    tabsContent.forEach(item => {
-        // item.classList.add('hide');
-        item.classList.remove('show', 'fade');
-    });
+const countryParent = document.querySelector('.country-wrap');
 
-    tabs.forEach(item => {
-        item.classList.remove('active');
-    });
-}
-
-function showTabContent(i = 0) {
-    tabsContent[i].classList.add('show', 'fade');
-    tabsContent[i].classList.remove('hide');
-    tabs[i].classList.add('active');
-}
+// countryParent.addEventListener('click', function(event) {
+//     const target = event.target;
     
-hideTabContent();
-showTabContent();
+//     target.classList.toggle('active');
+// });
 
-tabsParent.addEventListener('click', function(event) {
-    const target = event.target;
-
-    // isFedor['Пользователь с именем Федор'] = users.filter(item => item.name.startsWith('Fedor'));
-    if(target && target.classList.contains('country-tab')) {
-        tabs.forEach((item, i) => {
-            if (target == item) {
-                hideTabContent();
-                showTabContent(i);
+function filterByCountry () {
+    const countryBtn = document.querySelectorAll('.country-tab'),
+    coffeeItem = document.querySelectorAll('.coffee__item');
+    
+    function filter (category, items) {
+        items.forEach(item => {
+            const isItemFiltered = !item.classList.contains(category);
+            if (isItemFiltered) {
+                item.classList.add('hide', 'fade');
+            } else {
+                item.classList.remove('hide');
             }
         });
     }
 
-    // target.dataset.country === 'kenya')
-    if(target && target.classList.contains('country-tab')) {
-        tabs.forEach((item, i) => {
-            if (target == item) {
-                hideTabContent();
-                showTabContent(i);
-            }
+    countryBtn.forEach(button => {
+        button.addEventListener('click', () => {
+            const currentCategory = button.dataset.filter;
+            button.classList.toggle('active');
+            filter(currentCategory, coffeeItem);
+    
         });
-    }
+    });
+}
 
-    if(target && target.classList.contains('country-tab')) {
-        tabs.forEach((item, i) => {
-            if (target == item) {
-                hideTabContent();
-                showTabContent(i);
-            }
-        });
-    }
-});
+filterByCountry();
+
+
+        // isFedor['Пользователь с именем Федор'] = users.filter(item => item.name.startsWith('Fedor'));
+        // 
+        // if(target && target.classList.contains('country-tab')) {
+        //     tabs.forEach((item, i) => {
+        //         if (target == item) {
+        //             hideTabContent();
+        //             showTabContent(i);
+        //         }
+        //     });
+        // }
+    
+        // // target.dataset.country === 'kenya')
+        // if(target && target.classList.contains('country-tab')) {
+        //     tabs.forEach((item, i) => {
+        //         if (target == item) {
+        //             hideTabContent();
+        //             showTabContent(i);
+        //         }
+        //     });
+        // }
+    
+        // if(target && target.classList.contains('country-tab')) {
+        //     tabs.forEach((item, i) => {
+        //         if (target == item) {
+        //             hideTabContent();
+        //             showTabContent(i);
+        //         }
+        //     });
+        // }
+    
+    
+// function hideTabContent() {
+//     // tabsContent.forEach(item => item.classList.remove('show', 'fade'));
+
+    
+// }
+
+// function showTabContent(i = 0) {
+//     tabsContent[i].classList.add('show', 'fade');
+//     tabsContent[i].classList.remove('hide');
+//     tabs[i].classList.add('active');
+// }
+    
+// hideTabContent();
+// showTabContent();
+
 
 // Calculator
 
