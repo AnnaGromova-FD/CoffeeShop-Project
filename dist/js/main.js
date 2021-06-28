@@ -125,7 +125,7 @@ document.addEventListener('keydown', (event) => {
 
 //  Filter by country origin
 
-function filterByCountry () {
+const filterByCountry = () => {
     const countryBtn = document.querySelectorAll('.country-tab'),
     coffeeItem = document.querySelectorAll('.coffee__item');
 
@@ -133,6 +133,7 @@ function filterByCountry () {
         button.addEventListener('click', () => {
             const currentCategory = button.dataset.filter;
             button.classList.toggle('active');
+
             filter(currentCategory, coffeeItem);
     
         });
@@ -149,79 +150,155 @@ function filterByCountry () {
             }
         });
     }
-}
+};
 
 filterByCountry();
 
 
 // Calculator
 
-// // Calculator
+const selectCoffee = document.getElementById('select-coffee');
 
-//     const result = document.querySelector('.calculating__result span');
-//     let sex = 'female',
-//         height, weight, age,
-//         ratio = 1.375;
+// selectCoffee.addEventListener('click', () => {
+//     event.preventDefault();
+//     document.body.innerHTML = `Hello`;
+// });
 
-//     function calcTotal() {
-//         if (!sex || !height || !weight || !age || !ratio) {
-//             result.textContent = '____'; // Можете придумать что угодно
-//             return;
-//         }
-//         if (sex === 'female') {
-//             result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
-//         } else {
-//             result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
-//         }
-//     }
+const result = document.querySelector('.calculating__result');
+let press, machine, weight, cazve, ratio, milk, sugar, syrop, nothing, light, medium, dark, bitter, sweet, sour, solty, notsure;
 
-//     calcTotal();
+function calcTotal() {
+    if (!press || !machine || !weight || !cazve || !milk || !sugar || !syrop || !nothing || !light || !medium  || !dark|| !bitter|| !sweet|| !sour|| !solty|| !notsure) {
+        result.innerHTML = `
+            <div class="container">
+            <div class="subtitle-black" id="our-coffee">Our coffee
+            </div>
+            <div class="coffee-block">
+                <div class="coffee__item brasil">
+                    <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                    <h3 class="coffee__item-subtitle">
+                        Solimo Coffee Beans 2 kg
+                    </h3>
+                    <div class="coffee__item-country-name">
+                        Brazil
+                    </div>
+                    <div class="coffee__item--price-block">
+                        <button class="btn" data-modal>More</button>
+                        <div class="coffee__item-price">10.73$</div> 
+                    </div>
+                </div>
+                <div class="coffee__item kenya">
+                    <img src="img/tabs/presto.png" alt="aromistico">
+                    <h3 class="coffee__item-subtitle">
+                        Presto Coffee Beans 1 kg
+                    </h3>
+                    <div class="coffee__item-country-name">
+                        Kenya
+                    </div>
+                    <div class="coffee__item--price-block">
+                        <button class="btn" data-modal>More</button>
+                        <div class="coffee__item-price">15.99$</div> 
+                    </div>
+                </div>
+                <div class="coffee__item brasil">
+                    <img src="img/tabs/aromistico.png" alt="aromistico">
+                    <h3 class="coffee__item-subtitle">
+                        AROMISTICO Coffee 1 kg
+                    </h3>
+                    <div class="coffee__item-country-name">
+                        Brasil
+                    </div>
+                    <div class="coffee__item--price-block">
+                        <button class="btn" data-modal>More</button>
+                        <div class="coffee__item-price">6.99$</div> 
+                    </div>
+                </div>
+                <div class="coffee__item columbia">
+                    <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                    <h3 class="coffee__item-subtitle">
+                        Solimo Coffee Beans 2 kg
+                    </h3>
+                    <div class="coffee__item-country-name">
+                        Columbia
+                    </div>
+                    <div class="coffee__item--price-block">
+                        <button class="btn" data-modal>More</button>
+                        <div class="coffee__item-price">10.73$</div> 
+                    </div>
+                </div>
+                <div class="coffee__item brasil" >
+                    <img src="img/tabs/presto.png" alt="aromistico">
+                    <h3 class="coffee__item-subtitle">
+                        Presto Coffee Beans 1 kg
+                    </h3>
+                    <div class="coffee__item-country-name">
+                        Brasil
+                    </div>
+                    <div class="coffee__item--price-block">
+                        <button class="btn" data-modal>More</button>
+                        <div class="coffee__item-price">15.99$</div> 
+                    </div>
+                </div>
+                <div class="coffee__item kenya">
+                    <img src="img/tabs/aromistico.png" alt="aromistico">
+                    <h3 class="coffee__item-subtitle">
+                        AROMISTICO Coffee 1 kg
+                    </h3>
+                    <div class="coffee__item-country-name">
+                        Kenya
+                    </div>
+                    <div class="coffee__item--price-block">
+                        <button class="btn" data-modal>More</button>
+                        <div class="coffee__item-price">6.99$</div> 
+                    </div>
+                </div>
+            </div>
+        </div>`;
+        return;
+    } 
+}
 
-//     function getStaticInformation(parentSelector, activeClass) {
-//         const elements = document.querySelectorAll(`${parentSelector} div`);
+calcTotal();
 
-//         elements.forEach(elem => {
-//             elem.addEventListener('click', (e) => {
-//                 if (e.target.getAttribute('data-ratio')) {
-//                     ratio = +e.target.getAttribute('data-ratio');
-//                 } else {
-//                     sex = e.target.getAttribute('id');
-//                 }
-    
-//                 elements.forEach(elem => {
-//                     elem.classList.remove(activeClass);
-//                 });
-    
-//                 e.target.classList.add(activeClass);
-    
-//                 calcTotal();
-//             });
-//         });
-//     }
+function getInformation(selector, activeClass) {
+    const elements = document.querySelectorAll(selector),
+          coffeeItem = document.querySelectorAll('.coffee__item');
 
-//     getStaticInformation('#gender', 'calculating__choose-item_active');
-//     getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
+    elements.forEach(elem => {
+        elem.addEventListener('click', (e) => {
+            if (e.target.dataset.filter === 'brasil') {
+                const currentCategory = e.target.dataset.filter;
+                result.innerHTML = filter(currentCategory, coffeeItem);
+                
+            } else if (e.target.dataset.filter === 'kenya') {
+                sex = e.target.getAttribute('id');
+                
+            }
 
-//     function getDynamicInformation(selector) {
-//         const input = document.querySelector(selector);
+            elements.forEach(elem => {
+                elem.classList.remove(activeClass);
+            });
 
-//         input.addEventListener('input', () => {
-//             switch(input.getAttribute('id')) {
-//                 case "height":
-//                     height = +input.value;
-//                     break;
-//                 case "weight":
-//                     weight = +input.value;
-//                     break;
-//                 case "age":
-//                     age = +input.value;
-//                     break;
-//             }
+            e.target.classList.add(activeClass);
 
-//             calcTotal();
-//         });
-//     }
+            calcTotal();
+        });
 
-//     getDynamicInformation('#height');
-//     getDynamicInformation('#weight');
-//     getDynamicInformation('#age');
+        function filter (category, items) {
+            items.forEach(item => {
+                const isItemFiltered = !item.classList.contains(category),
+                      isShowAll = category.toLowerCase() === 'all';
+                if (isItemFiltered && !isShowAll) {
+                    item.classList.add('hide', 'fade');
+                } else {
+                    item.classList.remove('hide');
+                }
+            });
+        }
+    });
+}
+
+getInformation('#how div', 'calculating__choose-item_active');
+getInformation('#addings div', 'calculating__choose-item_active');
+getInformation('#roast div', 'calculating__choose-item_active');
+getInformation('#flavour div', 'calculating__choose-item_active'); 

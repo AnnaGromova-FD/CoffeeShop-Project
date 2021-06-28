@@ -6,6 +6,10 @@
   font-family: "Merienda", cursive;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 a {
   text-decoration: none;
 }
@@ -275,13 +279,18 @@ a {
   background: url("../img/main-page/img-5.jpeg") center right/cover no-repeat;
   background-attachment: fixed;
   max-width: 1440px;
-  min-height: 640px;
+  min-height: 300px;
   color: white;
   margin-bottom: 30px;
 }
 
+.calculating__page {
+  min-height: 640px;
+}
+
 .calc-container {
   max-width: 980px;
+  padding: 25px;
 }
 
 .title-no-anim {
@@ -289,7 +298,17 @@ a {
   font-weight: 700;
   text-align: center;
   margin-bottom: 20px;
-  padding-top: 20px;
+  margin-top: 20px;
+  color: white;
+}
+
+.title-no-anim a {
+  font-size: 40px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  color: white;
 }
 
 .calculating__choose {
@@ -300,7 +319,7 @@ a {
   margin: 30px auto 0 auto;
 }
 
-.calculating__choose:nth-child(2n+1) {
+.calculating__choose:nth-child(2n + 1) {
   justify-content: space-around;
 }
 
@@ -312,7 +331,7 @@ a {
   height: 45px;
   padding: 0 10px;
   margin-bottom: 15px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 15px rgb(0 0 0 / 20%);
   border: none;
   text-align: center;
@@ -321,6 +340,11 @@ a {
   outline: none;
   color: darkslategrey;
   transition: 0.3s all;
+}
+
+.calculating__choose-item_active {
+  color: #fff;
+  background-color: burlywood;
 }
 
 .calculating__subtitle {
@@ -333,6 +357,10 @@ a {
 .calculating__total {
   display: flex;
   justify-content: center;
+}
+
+.calculating__result {
+  min-height: 460px;
 }
 
 /* *********** FILTER *****************    */
