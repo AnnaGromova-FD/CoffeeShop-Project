@@ -127,21 +127,21 @@ document.addEventListener('keydown', (event) => {
 
 const filterByCountry = () => {
     const countryBtn = document.querySelectorAll('.country-tab'),
-    coffeeItem = document.querySelectorAll('.coffee__item');
+    coffeeItems = document.querySelectorAll('.coffee__item');
 
     countryBtn.forEach(button => {
         button.addEventListener('click', () => {
             const currentCategory = button.dataset.filter;
             button.classList.toggle('active');
 
-            filter(currentCategory, coffeeItem);
+            filter(currentCategory, coffeeItems);
     
         });
     });
 
     function filter (category, items) {
         items.forEach(item => {
-            const isItemFiltered = !item.classList.contains(category),
+            const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best'),
                   isShowAll = category.toLowerCase() === 'all';
             if (isItemFiltered && !isShowAll) {
                 item.classList.add('hide', 'fade');
@@ -164,131 +164,29 @@ const selectCoffee = document.getElementById('select-coffee');
 //     document.body.innerHTML = `Hello`;
 // });
 
-const result = document.querySelector('.calculating__result');
-let press, machine, weight, cazve, ratio, milk, sugar, syrop, nothing, light, medium, dark, bitter, sweet, sour, solty, notsure;
-
-function calcTotal() {
-    if (!press || !machine || !weight || !cazve || !milk || !sugar || !syrop || !nothing || !light || !medium  || !dark|| !bitter|| !sweet|| !sour|| !solty|| !notsure) {
-        result.innerHTML = `
-            <div class="container">
-            <div class="subtitle-black" id="our-coffee">Our coffee
-            </div>
-            <div class="coffee-block">
-                <div class="coffee__item brasil">
-                    <img src="img/tabs/solimo_2pack.png" alt="aromistico">
-                    <h3 class="coffee__item-subtitle">
-                        Solimo Coffee Beans 2 kg
-                    </h3>
-                    <div class="coffee__item-country-name">
-                        Brazil
-                    </div>
-                    <div class="coffee__item--price-block">
-                        <button class="btn" data-modal>More</button>
-                        <div class="coffee__item-price">10.73$</div> 
-                    </div>
-                </div>
-                <div class="coffee__item kenya">
-                    <img src="img/tabs/presto.png" alt="aromistico">
-                    <h3 class="coffee__item-subtitle">
-                        Presto Coffee Beans 1 kg
-                    </h3>
-                    <div class="coffee__item-country-name">
-                        Kenya
-                    </div>
-                    <div class="coffee__item--price-block">
-                        <button class="btn" data-modal>More</button>
-                        <div class="coffee__item-price">15.99$</div> 
-                    </div>
-                </div>
-                <div class="coffee__item brasil">
-                    <img src="img/tabs/aromistico.png" alt="aromistico">
-                    <h3 class="coffee__item-subtitle">
-                        AROMISTICO Coffee 1 kg
-                    </h3>
-                    <div class="coffee__item-country-name">
-                        Brasil
-                    </div>
-                    <div class="coffee__item--price-block">
-                        <button class="btn" data-modal>More</button>
-                        <div class="coffee__item-price">6.99$</div> 
-                    </div>
-                </div>
-                <div class="coffee__item columbia">
-                    <img src="img/tabs/solimo_2pack.png" alt="aromistico">
-                    <h3 class="coffee__item-subtitle">
-                        Solimo Coffee Beans 2 kg
-                    </h3>
-                    <div class="coffee__item-country-name">
-                        Columbia
-                    </div>
-                    <div class="coffee__item--price-block">
-                        <button class="btn" data-modal>More</button>
-                        <div class="coffee__item-price">10.73$</div> 
-                    </div>
-                </div>
-                <div class="coffee__item brasil" >
-                    <img src="img/tabs/presto.png" alt="aromistico">
-                    <h3 class="coffee__item-subtitle">
-                        Presto Coffee Beans 1 kg
-                    </h3>
-                    <div class="coffee__item-country-name">
-                        Brasil
-                    </div>
-                    <div class="coffee__item--price-block">
-                        <button class="btn" data-modal>More</button>
-                        <div class="coffee__item-price">15.99$</div> 
-                    </div>
-                </div>
-                <div class="coffee__item kenya">
-                    <img src="img/tabs/aromistico.png" alt="aromistico">
-                    <h3 class="coffee__item-subtitle">
-                        AROMISTICO Coffee 1 kg
-                    </h3>
-                    <div class="coffee__item-country-name">
-                        Kenya
-                    </div>
-                    <div class="coffee__item--price-block">
-                        <button class="btn" data-modal>More</button>
-                        <div class="coffee__item-price">6.99$</div> 
-                    </div>
-                </div>
-            </div>
-        </div>`;
-        return;
-    } 
-}
-
-calcTotal();
 
 function getInformation(selector, activeClass) {
-    const elements = document.querySelectorAll(selector),
-          coffeeItem = document.querySelectorAll('.coffee__item');
+    const chooseBlock = document.querySelectorAll(selector),
+          coffeeItems = document.querySelectorAll('.coffee__item');
 
-    elements.forEach(elem => {
+    chooseBlock.forEach(elem => {
         elem.addEventListener('click', (e) => {
-            if (e.target.dataset.filter === 'brasil') {
-                const currentCategory = e.target.dataset.filter;
-                result.innerHTML = filter(currentCategory, coffeeItem);
-                
-            } else if (e.target.dataset.filter === 'kenya') {
-                sex = e.target.getAttribute('id');
-                
-            }
-
-            elements.forEach(elem => {
+            const currentCategory = e.target.dataset.filter;
+                  
+            chooseBlock.forEach(elem => {
                 elem.classList.remove(activeClass);
             });
-
             e.target.classList.add(activeClass);
+            
+            filter(currentCategory, coffeeItems);
 
-            calcTotal();
         });
 
         function filter (category, items) {
             items.forEach(item => {
-                const isItemFiltered = !item.classList.contains(category),
-                      isShowAll = category.toLowerCase() === 'all';
-                if (isItemFiltered && !isShowAll) {
+                const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best');
+                      
+                if (isItemFiltered) {
                     item.classList.add('hide', 'fade');
                 } else {
                     item.classList.remove('hide');
