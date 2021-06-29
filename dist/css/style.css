@@ -311,6 +311,13 @@ a {
   color: white;
 }
 
+.title-no-anim:hover {
+  border: 1px solid white;
+}
+
+.title-no-frame:hover {
+  border: none
+}
 .calculating__choose {
   position: relative;
   display: flex;

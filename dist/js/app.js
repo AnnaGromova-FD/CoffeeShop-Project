@@ -13,7 +13,7 @@
 
 // const Routes = {
 //     '/': Home,
-//     '/select-coffe': Calculator,
+//     '/select-coffee': Calculator,
 //     '/coffee-page': CoffeePage,
 // };
 

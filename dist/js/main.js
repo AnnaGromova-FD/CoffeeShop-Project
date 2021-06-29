@@ -1,202 +1,241 @@
+import animation from './modules/animation.js';
+import promTimer from './modules/promTimer.js';
+import modal from './modules/modal.js';
+import filter from './modules/filter.js';
 
-//Animation on scroll
-const animItems = document.querySelectorAll('._anim-items');
+window.addEventListener('DOMContentLoaded', () => {
+    animation();
+    promTimer();
+    modal();
+    filter();
 
-if (animItems.length > 0) {
-    window.addEventListener('scroll', animOnScroll);
-    
-    animOnScroll(); 
-}
 
-function offset(el) {
-    const rect = el.getBoundingClientRect(),
-        scrollLeft = window.pageXOffset || document.documentElement.scrollLeft,
-        scrollTop = window.pageXOffset || document.documentElement.scrollTop;
-    return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
-} 
+        // Calculator
 
-function animOnScroll() {
-    for (let i = 0; i <animItems.length; i ++) {
-        const animItem = animItems[i];
-        const animItemHeight = animItem.offsetHeight;
-        const animItemOffset = offset(animItem).top;
-        const animStart = 6;
+    const selectCoffee = document.getElementById('select-coffee');
+
+    selectCoffee.addEventListener('click', () => {
+        event.preventDefault();
+        location.hash = `#/select-coffee`;
+        // const Routes = {
+        //     // '/': Home,
+        //     '/select-coffee': Calculator,
+        //     '/coffee-page': CoffeePage,
+        // };
         
-        let animItemPoint = window.innerHeight - animItemHeight / animStart;
+        function renderCalculator() {
+            return new Promise(resolve => {
+                let html; 
 
-        if (animItemHeight > window.innerHeight) {
-            animItemPoint = window.innerHeight - animItemHeight / animStart;
+                html = `
+                <section class="calculating calculating__page">
+                <div class=" container calc-container">
+                    <div class="title-no-anim">
+                    <a href="#" id="select-coffee">Lets select coffee to suit your personal taste
+                    </a> 
+                    </div>
+                    
+                    <div class="calculating__field">
+                        <div class="calculating__subtitle">
+                            How do you usually brew your coffee?
+                        </div>
+                        <div class="calculating__choose" id="how">
+                            <div id="press" data-filter="kenya" class="calculating__choose-item">French Press</div>
+                            <div id="machine" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Espresso machine</div>
+                            <div id="cazve" data-filter="columbia" class="calculating__choose-item">Cezve</div>
+                        </div>
+
+                        <div class="calculating__subtitle">
+                            What do you add to your coffee?
+                        </div>
+                        <div class="calculating__choose" id="addings">
+                            <div id ="milk" data-filter="columbia" class="calculating__choose-item calculating__choose-item_active">Milk</div>
+                            <div id="sugar" data-filter="brasil" class="calculating__choose-item">Sugar</div>
+                            <div id="syrop" data-filter="kenya" class="calculating__choose-item">Syrop</div>
+                            <div id="nothing" data-filter="brasil" class="calculating__choose-item">Nothing</div>
+                        </div>
+
+                        <div class="calculating__subtitle">
+                            Preffered coffee roast level
+                        </div>
+                        <div class="calculating__choose" id="roast">
+                            <div id="light" data-filter="kenya" class="calculating__choose-item">Light</div>
+                            <div id="medium" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Medium</div>
+                            <div id="dark" data-filter="columbia" class="calculating__choose-item">Dark</div>
+                        </div>
+
+                        <div class="calculating__subtitle">
+                            What coffee flavour do you preffer?
+                        </div>
+                        <div class="calculating__choose" id="flavour">
+                            <div id="bitter" data-filter="columbia" class="calculating__choose-item">Bitter</div>
+                            <div id="sweet" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Sweet</div>
+                            <div id="sour" data-filter="kenya" class="calculating__choose-item">Sour</div>
+                            <div id="solty" data-filter="columbia" class="calculating__choose-item">Solty</div>
+                            <div id="notsure" data-filter="brasil" class="calculating__choose-item">Not sure</div>
+                        </div>
+
+                        <div class="calculating__total">
+                            <div class="title-no-anim">
+                                We recommend:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="line"></div>
+
+            <section class="catalog">
+                <div class="container">
+                    <div class="subtitle-black" id="our-coffee">Our coffee
+                    </div>
+                    <div class="filter-wrap _anim-items _anim-no-hide">
+                        <div class="search">
+                            <label for="search">Looking for</label>
+                            <input type="text" name="search" id="search" placeholder="start typing here...">
+                        </div>
+                        <div class="filter"><strong>Or filter</strong>
+                            <div class="country-wrap">
+                            <div class="country-tab" data-filter="brasil">Brazil</div>
+                                <div class="country-tab" data-filter="kenya">Kenya</div>
+                                <div class="country-tab" data-filter="columbia">Columbia</div> 
+                                <div class="country-tab" data-filter="all">All</div> 
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <div class="coffee-block">
+                        <div class="coffee__item brasil">
+                            <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Solimo Coffee Beans 2 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Brazil
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>More</button>
+                                <div class="coffee__item-price">10.73$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item kenya">
+                            <img src="img/tabs/presto.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Presto Coffee Beans 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Kenya
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>More</button>
+                                <div class="coffee__item-price">15.99$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item brasil">
+                            <img src="img/tabs/aromistico.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                AROMISTICO Coffee 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Brasil
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>More</button>
+                                <div class="coffee__item-price">6.99$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item columbia">
+                            <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Solimo Coffee Beans 2 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Columbia
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>More</button>
+                                <div class="coffee__item-price">10.73$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item brasil" >
+                            <img src="img/tabs/presto.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Presto Coffee Beans 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Brasil
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>More</button>
+                                <div class="coffee__item-price">15.99$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item kenya">
+                            <img src="img/tabs/aromistico.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                AROMISTICO Coffee 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Kenya
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>More</button>
+                                <div class="coffee__item-price">6.99$</div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>`;
+
+                resolve(html);
+
+                reject('error');
+            });
         }
 
-        if ((pageYOffset > animItemOffset - animItemPoint) && pageYOffset < (animItemOffset + animItemHeight)) {
-            animItem.classList.add ('active');
-        } else {
-            if (!animItem.classList.contains('_anim-no-hide')) {
-                animItem.classList.remove('active');
-            }
-        }
-    }
-}
-
-// Promotion timer
-const deadline = '2021-07-10';
-
-function getTimeRemaining(endtime) {
-    const t = Date.parse(endtime) - Date.parse(new Date()),
-        days = Math.floor( (t/(1000*60*60*24)) ),
-        seconds = Math.floor( (t/1000) % 60 ),
-        minutes = Math.floor( (t/1000/60) % 60 ),
-        hours = Math.floor( (t/(1000*60*60) % 24) );
-
-    return {
-        'total': t,
-        'days': days,
-        'hours': hours,
-        'minutes': minutes,
-        'seconds': seconds
-    };
-}
-
-function getZero(num){
-    return num = (num >= 0 && num < 10) ? `0${num}` : num;
-}
-
-function setClock(selector, endtime) {
-
-    const timer = document.querySelector(selector),
-        days = timer.querySelector("#days"),
-        hours = timer.querySelector('#hours'),
-        minutes = timer.querySelector('#minutes'),
-        seconds = timer.querySelector('#seconds'),
-        timeInterval = setInterval(updateClock, 1000);
-
-    updateClock();
-
-    function updateClock() {
-        const t = getTimeRemaining(endtime);
-
-        days.innerHTML = getZero(t.days);
-        hours.innerHTML = getZero(t.hours);
-        minutes.innerHTML = getZero(t.minutes);
-        seconds.innerHTML = getZero(t.seconds);
-
-        if (t.total <= 0) {
-            clearInterval(timeInterval);
-        }
-    }
-}
-
-setClock('.timer', deadline);
-
-
-// MODAL
-
-const modalTrigger = document.querySelectorAll('[data-modal]'),
-        modal = document.querySelector('.modal'),
-        modalCloseBtn = document.querySelector('[data-close]');
-
-modalTrigger.forEach(btn => {
-    btn.addEventListener('click', function() {
-        modal.classList.toggle('show');
+        renderCalculator()
+        .then(html => document.body.innerHTML = html)
         
-        document.body.style.overflow = 'hidden';
-    });
-});
+        .catch(error => console.log(`Возникла ошибка при загрузке: ${error}`)); 
 
-function closeModal() {
-    modal.classList.toggle('show');
-    document.body.style.overflow = '';
-}
+        getInformation('#how div', 'calculating__choose-item_active');
+        getInformation('#addings div', 'calculating__choose-item_active');
+        getInformation('#roast div', 'calculating__choose-item_active');
+        getInformation('#flavour div', 'calculating__choose-item_active'); 
+    });    
+        
     
-modalCloseBtn.addEventListener('click', closeModal);
 
-modal.addEventListener('click', (event) => {
-    if (event.target === modal) {
-        closeModal();
-    }
-});
+    function getInformation(selector, activeClass) {
+        const chooseBlock = document.querySelectorAll(selector),
+            coffeeItems = document.querySelectorAll('.coffee__item');
 
-document.addEventListener('keydown', (event) => {
-    if (event.code === "Escape" && modal.classList.contains('show')) { 
-        closeModal();
-    }
-});
+        chooseBlock.forEach(elem => {
+            elem.addEventListener('click', (e) => {
+                const currentCategory = e.target.dataset.filter;
+                    
+                chooseBlock.forEach(elem => {
+                    elem.classList.remove(activeClass);
+                });
+                e.target.classList.add(activeClass);
+                
+                filter(currentCategory, coffeeItems);
 
+            });
 
-//  Filter by country origin
-
-const filterByCountry = () => {
-    const countryBtn = document.querySelectorAll('.country-tab'),
-    coffeeItems = document.querySelectorAll('.coffee__item');
-
-    countryBtn.forEach(button => {
-        button.addEventListener('click', () => {
-            const currentCategory = button.dataset.filter;
-            button.classList.toggle('active');
-
-            filter(currentCategory, coffeeItems);
-    
-        });
-    });
-
-    function filter (category, items) {
-        items.forEach(item => {
-            const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best'),
-                  isShowAll = category.toLowerCase() === 'all';
-            if (isItemFiltered && !isShowAll) {
-                item.classList.add('hide', 'fade');
-            } else {
-                item.classList.remove('hide');
+            function filter (category, items) {
+                items.forEach(item => {
+                    const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best');
+                        
+                    if (isItemFiltered) {
+                        item.classList.add('hide', 'fade');
+                    } else {
+                        item.classList.remove('hide');
+                    }
+                });
             }
         });
     }
-};
+});
 
-filterByCountry();
-
-
-// Calculator
-
-const selectCoffee = document.getElementById('select-coffee');
-
-// selectCoffee.addEventListener('click', () => {
-//     event.preventDefault();
-//     document.body.innerHTML = `Hello`;
-// });
-
-
-function getInformation(selector, activeClass) {
-    const chooseBlock = document.querySelectorAll(selector),
-          coffeeItems = document.querySelectorAll('.coffee__item');
-
-    chooseBlock.forEach(elem => {
-        elem.addEventListener('click', (e) => {
-            const currentCategory = e.target.dataset.filter;
-                  
-            chooseBlock.forEach(elem => {
-                elem.classList.remove(activeClass);
-            });
-            e.target.classList.add(activeClass);
-            
-            filter(currentCategory, coffeeItems);
-
-        });
-
-        function filter (category, items) {
-            items.forEach(item => {
-                const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best');
-                      
-                if (isItemFiltered) {
-                    item.classList.add('hide', 'fade');
-                } else {
-                    item.classList.remove('hide');
-                }
-            });
-        }
-    });
-}
-
-getInformation('#how div', 'calculating__choose-item_active');
-getInformation('#addings div', 'calculating__choose-item_active');
-getInformation('#roast div', 'calculating__choose-item_active');
-getInformation('#flavour div', 'calculating__choose-item_active'); 
