@@ -185,6 +185,11 @@ a {
     30px -5px 35px rgba(255, 255, 255, 0.3);
 }
 
+.subtitle-black__calc-page {
+  padding-top: 10px;
+  margin-bottom: 30px;
+}
+
 .subtitle__descr {
   font-size: 14px;
   line-height: 20px;
@@ -316,7 +321,7 @@ a {
 }
 
 .title-no-frame:hover {
-  border: none
+  border: none;
 }
 .calculating__choose {
   position: relative;

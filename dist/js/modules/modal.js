@@ -1,36 +1,43 @@
-function modal() {
-    // MODAL
+function closeModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
 
-    const modalTrigger = document.querySelectorAll('[data-modal]'),
-    modal = document.querySelector('.modal'),
-    modalCloseBtn = document.querySelector('[data-close]');
+    modal.classList.add('hide');
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+}
+
+function openModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
+
+    modal.classList.add('show');
+    modal.classList.remove('hide');
+    document.body.style.overflow = 'hidden';
+
+}
+
+function modal(triggerSelector, modalSelector) {
+    const modalTrigger = document.querySelectorAll(triggerSelector),
+        modal = document.querySelector(modalSelector);
 
     modalTrigger.forEach(btn => {
-        btn.addEventListener('click', function() {
-            modal.classList.toggle('show');
-            
-            document.body.style.overflow = 'hidden';
-        });
+        btn.addEventListener('click', () => openModal(modalSelector));
     });
 
-    function closeModal() {
-    modal.classList.toggle('show');
-    document.body.style.overflow = '';
-    }
-    
-    modalCloseBtn.addEventListener('click', closeModal);
-
-    modal.addEventListener('click', (event) => {
-        if (event.target === modal) {
-            closeModal();
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.getAttribute('data-close') == "") {
+            closeModal(modalSelector);
         }
     });
 
-    document.addEventListener('keydown', (event) => {
-        if (event.code === "Escape" && modal.classList.contains('show')) { 
-            closeModal();
+    document.addEventListener('keydown', (e) => {
+        if (e.code === "Escape" && modal.classList.contains('show')) { 
+            closeModal(modalSelector);
         }
     });
 }
 
 export default modal;
+export {closeModal};
+export {openModal};
+
+
