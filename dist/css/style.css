@@ -39,8 +39,7 @@ a {
   font-size: 24px;
   line-height: 35px;
   text-align: center;
-  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2),
-    30px -5px 35px rgba(255, 255, 255, 0.3);
+  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2), 30px -5px 35px rgba(255, 255, 255, 0.3);
   opacity: 0;
   transform: translate3d(0, 80%, 0);
   transition: all 1.8s ease 0s;
@@ -87,6 +86,10 @@ a {
   display: none;
 }
 
+.show {
+  display: block;
+}
+
 .fade {
   animation-name: fade;
   animation-duration: 1, 5s;
@@ -94,20 +97,16 @@ a {
 
 @keyframes fade {
   from {
-    transform: scale(1);
     opacity: 0.1;
   }
   to {
-    transform: scale(0);
     opacity: 1;
   }
 }
-
 .header {
   position: relative;
   margin: 0 auto;
-  background: url("../img/main-page/desk-791178_1920.jpg") center right/cover
-    no-repeat;
+  background: url("../img/main-page/desk-791178_1920.jpg") center right/cover no-repeat;
   background-attachment: fixed;
   max-width: 1440px;
   height: 560px;
@@ -181,13 +180,7 @@ a {
   padding-top: 60px;
   margin-bottom: 20px;
   color: black;
-  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2),
-    30px -5px 35px rgba(255, 255, 255, 0.3);
-}
-
-.subtitle-black__calc-page {
-  padding-top: 10px;
-  margin-bottom: 30px;
+  text-shadow: 2px 8px 6px rgba(0, 0, 0, 0.2), 30px -5px 35px rgba(255, 255, 255, 0.3);
 }
 
 .subtitle__descr {
@@ -197,10 +190,14 @@ a {
   margin-bottom: 100px;
 }
 
+.subtitle-black__calc-page {
+  padding-top: 10px;
+  margin-bottom: 30px;
+}
+
 .our-best {
   margin: 0 auto;
-  background: url("../img/main-page/paper-1074131_1920.jpg") center right/cover
-    no-repeat;
+  background: url("../img/main-page/paper-1074131_1920.jpg") center right/cover no-repeat;
   max-width: 1440px;
   min-height: 495px;
   overflow: hidden;
@@ -256,6 +253,7 @@ a {
 .about-our-beans {
   min-height: 450px;
   margin: 70px 70px 0 70px;
+  animation: fadeInUp 1.6s ease-in-out;
 }
 
 .about-our-beans-wrapper {
@@ -277,7 +275,6 @@ a {
   filter: drop-shadow(5px 5px 30px rgba(0, 0, 0, 0.25));
 }
 
-/* ******************** CALCULATING *********************** */
 .calculating {
   position: relative;
   margin: 0 auto;
@@ -323,6 +320,7 @@ a {
 .title-no-frame:hover {
   border: none;
 }
+
 .calculating__choose {
   position: relative;
   display: flex;
@@ -331,7 +329,7 @@ a {
   margin: 30px auto 0 auto;
 }
 
-.calculating__choose:nth-child(2n + 1) {
+.calculating__choose:nth-child(2n+1) {
   justify-content: space-around;
 }
 
@@ -344,7 +342,7 @@ a {
   padding: 0 10px;
   margin-bottom: 15px;
   background: #ffffff;
-  box-shadow: 0px 4px 15px rgb(0 0 0 / 20%);
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
   border: none;
   text-align: center;
   font-size: 14px;
@@ -370,12 +368,6 @@ a {
   display: flex;
   justify-content: center;
 }
-
-.calculating__result {
-  min-height: 460px;
-}
-
-/* *********** FILTER *****************    */
 
 .filter-wrap {
   display: flex;
@@ -412,6 +404,7 @@ a {
 .filter-wrap span {
   margin-right: 35px;
 }
+
 .filter {
   display: flex;
   justify-content: space-between;
@@ -439,10 +432,6 @@ a {
   filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
 }
 
-.country-tab.active {
-  filter: drop-shadow(0px 6px 6px rgba(0, 0, 0, 0.25));
-}
-
 .coffee__item-country-name {
   text-align: right;
   font-size: 14px;
@@ -456,8 +445,7 @@ a {
 }
 
 .promotion {
-  background: url(../img/main-page/paper-1074131_1920.jpg) center right/cover
-    no-repeat;
+  background: url(../img/main-page/paper-1074131_1920.jpg) center right/cover no-repeat;
   max-width: 1440px;
   margin: 0 auto;
 }
@@ -472,7 +460,6 @@ a {
 .promotion__block {
   flex-basis: 50%;
   margin-right: 15px;
-  margin-left: 15px;
   overflow: hidden;
   opacity: 0;
   transform: translate3d(0, 0, 80%);
@@ -601,6 +588,7 @@ a {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
+  height: 50vh;
   max-height: 80vh;
   overflow-y: auto;
   transition: 0.3s ease-out;
@@ -637,8 +625,6 @@ a {
   display: block;
   transition: 0.3s ease-out;
 }
-
-/* ************* MEDIA ****************************** */
 
 @media all and (max-width: 905px) {
   .devider-black {
@@ -677,7 +663,6 @@ a {
     flex-basis: 60%;
   }
 }
-
 @media all and (max-width: 840px) {
   .timer__block span {
     font-size: 50px;
@@ -689,7 +674,6 @@ a {
     height: 125px;
   }
 }
-
 @media all and (max-width: 787px) {
   .promotion-container {
     flex-direction: column;
@@ -729,7 +713,6 @@ a {
     margin-bottom: 15px;
   }
 }
-
 @media all and (max-width: 712px) {
   .title {
     font-size: 35px;
