@@ -84,6 +84,7 @@ a {
 
 .hide {
   display: none;
+  transition: 0.3s ease-out;
 }
 
 .show {
@@ -103,6 +104,11 @@ a {
     opacity: 1;
   }
 }
+.page-error {
+  text-align: center;
+  padding-top: 30%;
+}
+
 .header {
   position: relative;
   margin: 0 auto;
@@ -369,6 +375,15 @@ a {
   justify-content: center;
 }
 
+.btn-calc {
+  width: fit-content;
+  display: block;
+  padding: 0 50px;
+  align-self: center;
+  font-size: 20px;
+  margin: 0 auto 50px;
+}
+
 .filter-wrap {
   display: flex;
   justify-content: space-around;
@@ -460,6 +475,7 @@ a {
 .promotion__block {
   flex-basis: 50%;
   margin-right: 15px;
+  margin-left: 15px;
   overflow: hidden;
   opacity: 0;
   transform: translate3d(0, 0, 80%);
@@ -588,7 +604,6 @@ a {
   background-color: #fff;
   border: 1px solid rgba(0, 0, 0, 0.2);
   border-radius: 4px;
-  height: 50vh;
   max-height: 80vh;
   overflow-y: auto;
   transition: 0.3s ease-out;
