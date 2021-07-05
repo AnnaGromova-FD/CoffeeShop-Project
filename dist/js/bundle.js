@@ -90,18 +90,39 @@
 /*!*********************************!*\
   !*** ./src/js/helpers/utils.js ***!
   \*********************************/
-/*! exports provided: parseRequestURL */
+/*! exports provided: parseRequestURL, postData */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseRequestURL", function() { return parseRequestURL; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postData", function() { return postData; });
 const parseRequestURL = () => {
   const url = location.hash.slice(2),
         request = {};
   request.resource = url.split('/');
   return request;
 };
+
+const postData = async (url, data) => {
+  let res = await fetch(url, {
+    method: "POST",
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: data
+  });
+  return await res.json();
+}; // async function getResource(url) {
+//     let res = await fetch(url);
+//     if (!res.ok) {
+//         throw new Error(`Could not fetch ${url}, status: ${res.status}`);
+//     }
+//     return await res.json();
+// }
+
+
+ // export {getResource};
 
 /***/ }),
 
@@ -114,39 +135,34 @@ const parseRequestURL = () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modules_animation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modules/animation */ "./src/js/modules/animation.js");
-/* harmony import */ var _modules_promTimer__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modules/promTimer */ "./src/js/modules/promTimer.js");
-/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modules/modal */ "./src/js/modules/modal.js");
-/* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modules/filter */ "./src/js/modules/filter.js");
-/* harmony import */ var _modules_calculator__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./modules/calculator */ "./src/js/modules/calculator.js");
-/* harmony import */ var _helpers_utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./helpers/utils */ "./src/js/helpers/utils.js");
-/* harmony import */ var _views_calc_page_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./views/calc-page.component */ "./src/js/views/calc-page.component.js");
-/* harmony import */ var _views_home_page_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./views/home-page.component */ "./src/js/views/home-page.component.js");
-/* harmony import */ var _views_error404__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./views/error404 */ "./src/js/views/error404.js");
+/* harmony import */ var _helpers_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/utils */ "./src/js/helpers/utils.js");
+/* harmony import */ var _views_calc_page_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/calc-page.component */ "./src/js/views/calc-page.component.js");
+/* harmony import */ var _views_home_page_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./views/home-page.component */ "./src/js/views/home-page.component.js");
+/* harmony import */ var _views_error404__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./views/error404 */ "./src/js/views/error404.js");
 
 
 
+ // import {Hilitor} from './modules/search';
 
-
-
-
-
+window.onload = function () {
+  document.body.classList.add('loaded_hiding');
+  window.setTimeout(function () {
+    document.body.classList.add('loaded');
+    document.body.classList.remove('loaded_hiding');
+  }, 3000);
+};
 
 const Routes = {
-  '/': _views_home_page_component__WEBPACK_IMPORTED_MODULE_7__["HomePageComponent"],
-  '/select-coffee': _views_calc_page_component__WEBPACK_IMPORTED_MODULE_6__["CalcPage"] // '/coffee-page': CoffeePage,
+  '/': _views_home_page_component__WEBPACK_IMPORTED_MODULE_2__["HomePageComponent"],
+  '/select-coffee': _views_calc_page_component__WEBPACK_IMPORTED_MODULE_1__["CalcPage"] // '/coffee-page': CoffeePage,
 
 };
 
 function router() {
-  // const calcPage = new CalcPage('calc-page');
-  const homePage = new _views_home_page_component__WEBPACK_IMPORTED_MODULE_7__["HomePageComponent"]('home'); // const error404 = new Error404();
-
-  const home = document.getElementById('home'); // homePage.render().then(html  => home.innerHTML = html);
-
-  const request = Object(_helpers_utils__WEBPACK_IMPORTED_MODULE_5__["parseRequestURL"])(),
+  const home = document.getElementById('home');
+  const request = Object(_helpers_utils__WEBPACK_IMPORTED_MODULE_0__["parseRequestURL"])(),
         parsedURL = `/${request.resource || ''}`,
-        page = Routes[parsedURL] ? new Routes[parsedURL]() : new _views_error404__WEBPACK_IMPORTED_MODULE_8__["Error404"]();
+        page = Routes[parsedURL] ? new Routes[parsedURL]() : new _views_error404__WEBPACK_IMPORTED_MODULE_3__["Error404"]();
   page.render().then(html => {
     home.innerHTML = html;
     page.afterRender();
@@ -154,14 +170,13 @@ function router() {
 }
 
 window.addEventListener('load', router);
-window.addEventListener('hashchange', router);
-window.addEventListener('DOMContentLoaded', () => {
-  Object(_modules_animation__WEBPACK_IMPORTED_MODULE_0__["default"])();
-  Object(_modules_promTimer__WEBPACK_IMPORTED_MODULE_1__["default"])();
-  Object(_modules_modal__WEBPACK_IMPORTED_MODULE_2__["default"])('[data-modal]', '.modal');
-  Object(_modules_filter__WEBPACK_IMPORTED_MODULE_3__["default"])();
-  Object(_modules_calculator__WEBPACK_IMPORTED_MODULE_4__["default"])();
-});
+window.addEventListener('hashchange', router); // window.addEventListener("DOMContentLoaded", function(e) {
+//     var myHilitor2 = new Hilitor("home");
+//     myHilitor2.setMatchType("left");
+//     document.getElementById("searchItem").addEventListener("keyup", function(e) {
+//       myHilitor2.apply(this.value);
+//     }, false);
+//   }, false);
 
 /***/ }),
 
@@ -174,8 +189,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//Animation on scroll
 function animation() {
-  //Animation on scroll
   const animItems = document.querySelectorAll('._anim-items');
 
   if (animItems.length > 0) {
@@ -229,231 +244,17 @@ function animation() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _modal_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal.js */ "./src/js/modules/modal.js");
-/* harmony import */ var _views_error404__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../views/error404 */ "./src/js/views/error404.js");
-
-
-
+// import modal from './modal';
+// import {Error404} from '../views/error404';
 function calculator() {
-  const selectCoffee = document.getElementById('select-coffee');
-  selectCoffee.addEventListener('click', goToCoffePage);
-
+  //    const selectCoffee = document.getElementById('select-coffee');
+  //    selectCoffee.addEventListener('click', goToCoffePage);
   function goToCoffePage() {
-    event.preventDefault(); //    location.hash = `#/select-coffee`; 
-    // selectCoffee.removeEventListener('click', goToCoffePage);
+    event.preventDefault();
 
-    if (window.location.hash === `#/select-coffee`) {
-      this.render();
-    }
+    function render() {}
 
-    function render() {
-      return new Promise(resolve => {
-        let html;
-        html = `
-            <section class="calculating calculating__page" id="calc-page">
-            <div class=" container calc-container">
-                <div class="title-no-anim">
-                <a href="#/" id="select-coffee">Lets select coffee to suit your personal taste
-                </a> 
-                </div>
-                
-                <div class="calculating__field">
-                    <div class="calculating__subtitle">
-                        How do you usually brew your coffee?
-                    </div>
-                    <div class="calculating__choose" id="how">
-                        <div id="press" data-filter="kenya" class="calculating__choose-item">French Press</div>
-                        <div id="machine" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Espresso machine</div>
-                        <div id="cazve" data-filter="columbia" class="calculating__choose-item">Cezve</div>
-                    </div>
-
-                    <div class="calculating__subtitle">
-                        What do you add to your coffee?
-                    </div>
-                    <div class="calculating__choose" id="addings">
-                        <div id ="milk" data-filter="columbia" class="calculating__choose-item calculating__choose-item_active">Milk</div>
-                        <div id="sugar" data-filter="brasil" class="calculating__choose-item">Sugar</div>
-                        <div id="syrop" data-filter="kenya" class="calculating__choose-item">Syrop</div>
-                        <div id="nothing" data-filter="brasil" class="calculating__choose-item">Nothing</div>
-                    </div>
-
-                    <div class="calculating__subtitle">
-                        Preffered coffee roast level
-                    </div>
-                    <div class="calculating__choose" id="roast">
-                        <div id="light" data-filter="kenya" class="calculating__choose-item">Light</div>
-                        <div id="medium" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Medium</div>
-                        <div id="dark" data-filter="columbia" class="calculating__choose-item">Dark</div>
-                    </div>
-
-                    <div class="calculating__subtitle">
-                        What coffee flavour do you preffer?
-                    </div>
-                    <div class="calculating__choose" id="flavour">
-                        <div id="bitter" data-filter="columbia" class="calculating__choose-item">Bitter</div>
-                        <div id="sweet" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Sweet</div>
-                        <div id="sour" data-filter="kenya" class="calculating__choose-item">Sour</div>
-                        <div id="solty" data-filter="columbia" class="calculating__choose-item">Solty</div>
-                        <div id="notsure" data-filter="brasil" class="calculating__choose-item">Not sure</div>
-                    </div>
-
-                    <div class="calculating__total">
-                        <div class="title-no-anim">
-                            We recommend:
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="line"></div>
-
-        <section class="catalog">
-            <div class="container">
-                <div class="subtitle-black subtitle-black__calc-page" id="our-coffee">Our coffee
-                </div>
-                
-                <div class="coffee-block">
-                    <div class="coffee__item brasil">
-                        <img src="img/tabs/solimo_2pack.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Solimo Coffee Beans 2 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Brazil
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
-                            <div class="coffee__item-price">10.73$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item kenya">
-                        <img src="img/tabs/presto.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Presto Coffee Beans 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Kenya
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
-                            <div class="coffee__item-price">15.99$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item brasil">
-                        <img src="img/tabs/aromistico.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            AROMISTICO Coffee 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Brasil
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
-                            <div class="coffee__item-price">6.99$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item columbia">
-                        <img src="img/tabs/solimo_2pack.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Solimo Coffee Beans 2 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Columbia
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
-                            <div class="coffee__item-price">10.73$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item brasil" >
-                        <img src="img/tabs/presto.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Presto Coffee Beans 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Brasil
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
-                            <div class="coffee__item-price">15.99$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item kenya">
-                        <img src="img/tabs/aromistico.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            AROMISTICO Coffee 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Kenya
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
-                            <div class="coffee__item-price">6.99$</div> 
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-calc">Back to main page</button>
-            </div>
-        </section>
-        <div class="modal">
-            <div class="modal__dialog">
-                <div class="modal__content">
-                    <div class="modal__close" data-close>&times;</div>  
-                    <div class="modal--img">
-                        <img src="img/coffee-page/aromostico_coffee-page.jpg" alt="aromistico">
-                    </div>
-                    <div class="coffee--descr-block">
-                        <div class="subtitle-black subtitle-9pt">About it</div>
-                        <div class="devider devider-black">
-                            <div class=" devider__line devider__line-black"></div>
-                            <img src="icons/3 coffee-beans-black.png" alt="3 coffee-beans">
-                            <div class="devider__line devider__line-black"></div>
-                        </div>
-                        <div class="subtitle__descr descr-mb modal-descr">
-                            <p><strong>Country:</strong>  Brasil</p>
-                            <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            <p><strong>Price:</strong> <span> 16.99$</span></p>
-                        </div>
-                        <!-- <button class="btn btn-modal">Go to coffee page</button> -->
-                    </div>
-                </div>
-            </div>   
-        </div> 
-        `;
-        resolve(html);
-        reject('error');
-      });
-    }
-
-    render().then(html => document.body.innerHTML = html).then(() => getInformation('#how div', 'calculating__choose-item_active')).then(() => getInformation('#addings div', 'calculating__choose-item_active')).then(() => getInformation('#roast div', 'calculating__choose-item_active')).then(() => getInformation('#flavour div', 'calculating__choose-item_active')).then(() => Object(_modal_js__WEBPACK_IMPORTED_MODULE_0__["default"])('[data-modal]', '.modal')).catch(error => console.log(`Возникла ошибка при загрузке: ${error}`));
-  }
-
-  function getInformation(selector, activeClass) {
-    const chooseBlock = document.querySelectorAll(selector),
-          coffeeItems = document.querySelectorAll('.coffee__item');
-    chooseBlock.forEach(elem => {
-      elem.addEventListener('click', e => {
-        const currentCategory = e.target.dataset.filter;
-        chooseBlock.forEach(elem => {
-          elem.classList.remove(activeClass);
-        });
-        e.target.classList.add(activeClass);
-        filter(currentCategory, coffeeItems);
-      });
-
-      function filter(category, items) {
-        items.forEach(item => {
-          const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best');
-
-          if (isItemFiltered) {
-            item.classList.add('hide', 'fade');
-          } else {
-            item.classList.remove('hide');
-          }
-        });
-      }
-    });
+    render().catch(error => console.log(`Возникла ошибка при загрузке: ${error}`));
   }
 }
 
@@ -470,8 +271,8 @@ function calculator() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//  Filter by country origin
 function filter() {
-  //  Filter by country origin
   const filterByCountry = () => {
     const countryBtn = document.querySelectorAll('.country-tab'),
           coffeeItems = document.querySelectorAll('.coffee__item');
@@ -501,6 +302,81 @@ function filter() {
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (filter);
+
+/***/ }),
+
+/***/ "./src/js/modules/form.js":
+/*!********************************!*\
+  !*** ./src/js/modules/form.js ***!
+  \********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _helpers_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/utils */ "./src/js/helpers/utils.js");
+
+
+
+function forms(formsSelector) {
+  const forms = document.querySelectorAll(formsSelector);
+  const message = {
+    loading: '../img/form/spinner.svg',
+    success: 'Thank you! We\'ll contact you soon',
+    failure: 'Something went wrong...'
+  };
+  forms.forEach(item => {
+    bindPostData(item);
+  });
+
+  function bindPostData(form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      let statusMessage = document.createElement('img');
+      statusMessage.src = message.loading;
+      statusMessage.style.cssText = `
+                display: block;
+                margin: 0 auto;
+            `;
+      form.insertAdjacentElement('afterend', statusMessage);
+      const formData = new FormData(form);
+      const json = JSON.stringify(Object.fromEntries(formData.entries()));
+      Object(_helpers_utils__WEBPACK_IMPORTED_MODULE_1__["postData"])('https://reqres.in/api/users', json).then(data => {
+        console.log(data);
+        showThanksModal(message.success);
+        statusMessage.remove();
+      }).catch(() => {
+        showThanksModal(message.failure);
+      }).finally(() => {
+        form.reset();
+      });
+    });
+  }
+
+  function showThanksModal(message) {
+    const prevModalDialog = document.querySelector('.modal__dialog');
+    prevModalDialog.classList.add('hide');
+    Object(_modal__WEBPACK_IMPORTED_MODULE_0__["openModal"])('.modal');
+    const thanksModal = document.createElement('div');
+    thanksModal.classList.add('modal__dialog');
+    thanksModal.innerHTML = `
+            <div class="modal__content">
+                <div class="modal__close" data-close>×</div>
+                <div class="modal__title">${message}</div>
+            </div>
+        `;
+    document.querySelector('.modal').append(thanksModal);
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalDialog.classList.add('show');
+      prevModalDialog.classList.remove('hide');
+      Object(_modal__WEBPACK_IMPORTED_MODULE_0__["closeModal"])('.modal');
+    }, 5000);
+  }
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (forms);
 
 /***/ }),
 
@@ -541,7 +417,7 @@ function modal(triggerSelector, modalSelector) {
     }
   });
   document.addEventListener('keydown', e => {
-    if (e.code === "Escape" && modal.classList.contains('show')) {
+    if (e.code === 'Escape' && modal.classList.contains('show')) {
       closeModal(modalSelector);
     }
   });
@@ -557,15 +433,13 @@ function modal(triggerSelector, modalSelector) {
 /*!*************************************!*\
   !*** ./src/js/modules/promTimer.js ***!
   \*************************************/
-/*! exports provided: default */
+/*! exports provided: promTimer, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-function promTimer() {
-  // Promotion timer
-  const deadline = '2021-07-10';
-
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "promTimer", function() { return promTimer; });
+function promTimer(id, deadline) {
   function getTimeRemaining(endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date()),
           days = Math.floor(t / (1000 * 60 * 60 * 24)),
@@ -607,10 +481,181 @@ function promTimer() {
     }
   }
 
-  setClock('.timer', deadline);
+  setClock(id, deadline);
+}
+/* harmony default export */ __webpack_exports__["default"] = (promTimer);
+
+/***/ }),
+
+/***/ "./src/js/modules/search.js":
+/*!**********************************!*\
+  !*** ./src/js/modules/search.js ***!
+  \**********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function search() {
+  // document.getElementById('searchForm').addEventListener('input', Hilitor);
+  function Hilitor(id, tag) {
+    // private variables
+    var targetNode = document.getElementById(id) || document.body;
+    var hiliteTag = tag || "MARK";
+    var skipTags = new RegExp("^(?:" + hiliteTag + "|SCRIPT|FORM|SPAN)$");
+    var colors = ["#ff6", "#a0ffff", "#9f9", "#f99", "#f6f"];
+    var wordColor = [];
+    var colorIdx = 0;
+    var matchRegExp = "";
+    var openLeft = false;
+    var openRight = false; // characters to strip from start and end of the input string
+
+    var endRegExp = new RegExp('^[^\\w]+|[^\\w]+$', "g"); // characters used to break up the input string into words
+
+    var breakRegExp = new RegExp('[^\\w\'-]+', "g");
+
+    this.setEndRegExp = function (regex) {
+      endRegExp = regex;
+      return endRegExp;
+    };
+
+    this.setBreakRegExp = function (regex) {
+      breakRegExp = regex;
+      return breakRegExp;
+    };
+
+    this.setMatchType = function (type) {
+      switch (type) {
+        case "left":
+          this.openLeft = false;
+          this.openRight = true;
+          break;
+
+        case "right":
+          this.openLeft = true;
+          this.openRight = false;
+          break;
+
+        case "open":
+          this.openLeft = this.openRight = true;
+          break;
+
+        default:
+          this.openLeft = this.openRight = false;
+      }
+    };
+
+    this.setRegex = function (input) {
+      input = input.replace(endRegExp, "");
+      input = input.replace(breakRegExp, "|");
+      input = input.replace(/^\||\|$/g, "");
+
+      if (input) {
+        var re = "(" + input + ")";
+
+        if (!this.openLeft) {
+          re = "\\b" + re;
+        }
+
+        if (!this.openRight) {
+          re = re + "\\b";
+        }
+
+        matchRegExp = new RegExp(re, "i");
+        return matchRegExp;
+      }
+
+      return false;
+    };
+
+    this.getRegex = function () {
+      var retval = matchRegExp.toString();
+      retval = retval.replace(/(^\/(\\b)?|\(|\)|(\\b)?\/i$)/g, "");
+      retval = retval.replace(/\|/g, " ");
+      return retval;
+    }; // recursively apply word highlighting
+
+
+    this.hiliteWords = function (node) {
+      if (node === undefined || !node) return;
+      if (!matchRegExp) return;
+      if (skipTags.test(node.nodeName)) return;
+
+      if (node.hasChildNodes()) {
+        for (var i = 0; i < node.childNodes.length; i++) this.hiliteWords(node.childNodes[i]);
+      }
+
+      if (node.nodeType == 3) {
+        // NODE_TEXT
+        if ((nv = node.nodeValue) && (regs = matchRegExp.exec(nv))) {
+          if (!wordColor[regs[0].toLowerCase()]) {
+            wordColor[regs[0].toLowerCase()] = colors[colorIdx++ % colors.length];
+          }
+
+          var match = document.createElement(hiliteTag);
+          match.appendChild(document.createTextNode(regs[0]));
+          match.style.backgroundColor = wordColor[regs[0].toLowerCase()];
+          match.style.color = "#000";
+          var after = node.splitText(regs.index);
+          after.nodeValue = after.nodeValue.substring(regs[0].length);
+          node.parentNode.insertBefore(match, after);
+        }
+      }
+    }; // remove highlighting
+
+
+    this.remove = function () {
+      var arr = document.getElementsByTagName(hiliteTag);
+
+      while (arr.length && (el = arr[0])) {
+        var parent = el.parentNode;
+        parent.replaceChild(el.firstChild, el);
+        parent.normalize();
+      }
+    }; // start highlighting at target node
+
+
+    this.apply = function (input) {
+      this.remove();
+
+      if (input === undefined || !(input = input.replace(/(^\s+|\s+$)/g, ""))) {
+        return;
+      }
+
+      if (this.setRegex(input)) {
+        this.hiliteWords(targetNode);
+      }
+
+      return matchRegExp;
+    };
+  }
+
+  window.addEventListener("DOMContentLoaded", function (e) {
+    var myHilitor2 = new Hilitor("home");
+    myHilitor2.setMatchType("left");
+    document.getElementById("searchItem").addEventListener("keyup", function (e) {
+      myHilitor2.apply(this.value);
+    }, false);
+  }, false); // function listenAndSearch(){
+  //     var input = document.getElementById('searchItem').value;
+  //     console.log(input);
+  //     var pattern = input.toLowerCase();
+  //     var targetId = '';
+  //     var divs = document.getElementsByClassName('catalog');
+  //         for (var i = 0; i < divs.length; i++) {
+  //             var para = divs[i].getElementsByTagName('div');
+  //             var index = para[0].innerText.toLowerCase().indexOf(pattern);
+  //             if (index != -1) {
+  //                 targetId = divs[i].parentNode.id;
+  //                 document.getElementById(targetId).scrollIntoView();
+  //                 break;
+  //             }
+  //         }  
+  // }
+  // listenAndSearch();
 }
 
-/* harmony default export */ __webpack_exports__["default"] = (promTimer);
+/* harmony default export */ __webpack_exports__["default"] = (search);
 
 /***/ }),
 
@@ -625,7 +670,9 @@ function promTimer() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CalcPage", function() { return CalcPage; });
 /* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component */ "./src/js/views/component.js");
-/* harmony import */ var _modules_calculator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/calculator */ "./src/js/modules/calculator.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _modules_form__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modules/form */ "./src/js/modules/form.js");
+
 
 
 class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
@@ -635,9 +682,8 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       html = `
             <section class="calculating calculating__page" id="calc-page">
             <div class=" container calc-container">
-                <div class="title-no-anim">
-                <a href="#/" id="select-coffee">Lets select coffee to suit your personal taste
-                </a> 
+                <div class="title-no-anim title-no-frame">
+                    Lets select coffee to suit your personal taste
                 </div>
                 
                 <div class="calculating__field">
@@ -681,7 +727,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                     </div>
 
                     <div class="calculating__total">
-                        <div class="title-no-anim">
+                        <div class="title-no-anim title-no-frame">
                             We recommend:
                         </div>
                     </div>
@@ -706,7 +752,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                             Brazil
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">10.73$</div> 
                         </div>
                     </div>
@@ -719,7 +765,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                             Kenya
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">15.99$</div> 
                         </div>
                     </div>
@@ -732,7 +778,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                             Brasil
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">6.99$</div> 
                         </div>
                     </div>
@@ -745,7 +791,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                             Columbia
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">10.73$</div> 
                         </div>
                     </div>
@@ -758,7 +804,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                             Brasil
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">15.99$</div> 
                         </div>
                     </div>
@@ -771,38 +817,29 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
                             Kenya
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">6.99$</div> 
                         </div>
                     </div>
                 </div>
-                <button class="btn btn-calc">Back to main page</button>
+                <button class="btn btn-calc">
+                   <a href="">Back to main page</a>
+                </button>  
             </div>
         </section>
         <div class="modal">
             <div class="modal__dialog">
                 <div class="modal__content">
-                    <div class="modal__close" data-close>&times;</div>  
-                    <div class="modal--img">
-                        <img src="img/coffee-page/aromostico_coffee-page.jpg" alt="aromistico">
-                    </div>
-                    <div class="coffee--descr-block">
-                        <div class="subtitle-black subtitle-9pt">About it</div>
-                        <div class="devider devider-black">
-                            <div class=" devider__line devider__line-black"></div>
-                            <img src="icons/3 coffee-beans-black.png" alt="3 coffee-beans">
-                            <div class="devider__line devider__line-black"></div>
-                        </div>
-                        <div class="subtitle__descr descr-mb modal-descr">
-                            <p><strong>Country:</strong>  Brasil</p>
-                            <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            <p><strong>Price:</strong> <span> 16.99$</span></p>
-                        </div>
-                        <!-- <button class="btn btn-modal">Go to coffee page</button> -->
-                    </div>
+                    <form action="#">
+                        <div class="modal__close" data-close>&times;</div>
+                        <div class="modal__title">We will call you back as soon as possible!</div>
+                        <input required placeholder="Your name" name="name" type="text" class="modal__input">
+                        <input required placeholder="Your phone number" name="phone" type="phone" class="modal__input">
+                        <button class="btn btn_dark btn_min">Call me back</button>
+                    </form>
                 </div>
-            </div>   
-        </div> 
+            </div>
+        </div>
         `;
       resolve(html);
       reject('error');
@@ -810,12 +847,39 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   afterRender() {
-    Object(_modules_calculator__WEBPACK_IMPORTED_MODULE_1__["default"])();
-    getInformation('#how div', 'calculating__choose-item_active');
-    getInformation('#addings div', 'calculating__choose-item_active');
-    getInformation('#roast div', 'calculating__choose-item_active');
-    getInformation('#flavour div', 'calculating__choose-item_active');
-    modal('[data-modal]', '.modal');
+    this.getInformation('#how div', 'calculating__choose-item_active');
+    this.getInformation('#addings div', 'calculating__choose-item_active');
+    this.getInformation('#roast div', 'calculating__choose-item_active');
+    this.getInformation('#flavour div', 'calculating__choose-item_active');
+    Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal');
+    Object(_modules_form__WEBPACK_IMPORTED_MODULE_2__["default"])('form');
+  }
+
+  getInformation(selector, activeClass) {
+    const chooseBlock = document.querySelectorAll(selector),
+          coffeeItems = document.querySelectorAll('.coffee__item');
+    chooseBlock.forEach(elem => {
+      elem.addEventListener('click', e => {
+        const currentCategory = e.target.dataset.filter;
+        chooseBlock.forEach(elem => {
+          elem.classList.remove(activeClass);
+        });
+        e.target.classList.add(activeClass);
+        filter(currentCategory, coffeeItems);
+      });
+
+      function filter(category, items) {
+        items.forEach(item => {
+          const isItemFiltered = !item.classList.contains(category) && !item.classList.contains('best');
+
+          if (isItemFiltered) {
+            item.classList.add('hide', 'fade');
+          } else {
+            item.classList.remove('hide');
+          }
+        });
+      }
+    });
   }
 
 }
@@ -835,8 +899,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../helpers/utils */ "./src/js/helpers/utils.js");
 
 class Component {
-  constructor(id) {
-    this.el = document.getElementById(id);
+  constructor() {
     this.request = Object(_helpers_utils__WEBPACK_IMPORTED_MODULE_0__["parseRequestURL"])();
   }
 
@@ -884,11 +947,22 @@ class Error404 extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomePageComponent", function() { return HomePageComponent; });
 /* harmony import */ var _component__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./component */ "./src/js/views/component.js");
+/* harmony import */ var _modules_modal__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../modules/modal */ "./src/js/modules/modal.js");
+/* harmony import */ var _modules_promTimer__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../modules/promTimer */ "./src/js/modules/promTimer.js");
+/* harmony import */ var _modules_animation__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../modules/animation */ "./src/js/modules/animation.js");
+/* harmony import */ var _modules_filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../modules/filter */ "./src/js/modules/filter.js");
+/* harmony import */ var _modules_calculator__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../modules/calculator */ "./src/js/modules/calculator.js");
+/* harmony import */ var _modules_search__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../modules/search */ "./src/js/modules/search.js");
+/* harmony import */ var _modules_form__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modules/form */ "./src/js/modules/form.js");
+
+
+
+
+
+
+
 
 class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
-  // constructor(id) {
-  //     super(id);
-  // }
   render() {
     return new Promise(resolve => {
       resolve(`
@@ -899,7 +973,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                 <nav class="header__links">
                     <a href="#promotion">Promotion</a>
                     <a href="#our-coffee">Our coffee</a>
-                    <a href="#select-coffee">Select coffee</a>
+                    <a href="#/select-coffee">Select coffee</a>
                 </nav>
             </div>
             <div class="title-block">
@@ -947,7 +1021,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Solimo Coffee Beans 2 kg
                         </h3>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">10.73$</div> 
                         </div>
                     </div>
@@ -957,7 +1031,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Presto Coffee Beans 1 kg
                         </h3>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">15.99$</div> 
                         </div>
                     </div>
@@ -967,7 +1041,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             AROMISTICO Coffee 1 kg
                         </h3>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">6.99$</div> 
                         </div>
                     </div>
@@ -1026,9 +1100,9 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                 <div class="subtitle-black subtitle-black__calc-page" id="our-coffee">Our coffee
                 </div>
                 <div class="filter-wrap _anim-items _anim-no-hide">
-                    <div class="search">
+                    <div class="search" id="searchForm">
                         <label for="search">Looking for</label>
-                        <input type="text" name="search" id="search" placeholder="start typing here...">
+                        <input type="text" name="search" id="searchItem" placeholder="start typing here...">
                     </div>
                     <div class="filter"><strong>Or filter</strong>
                         <div class="country-wrap">
@@ -1050,7 +1124,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Brazil
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">10.73$</div> 
                         </div>
                     </div>
@@ -1063,7 +1137,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Kenya
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">15.99$</div> 
                         </div>
                     </div>
@@ -1076,7 +1150,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Brasil
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">6.99$</div> 
                         </div>
                     </div>
@@ -1089,7 +1163,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Columbia
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">10.73$</div> 
                         </div>
                     </div>
@@ -1102,7 +1176,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Brasil
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">15.99$</div> 
                         </div>
                     </div>
@@ -1115,7 +1189,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                             Kenya
                         </div>
                         <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>More</button>
+                            <button class="btn" data-modal>Order</button>
                             <div class="coffee__item-price">6.99$</div> 
                         </div>
                     </div>
@@ -1133,7 +1207,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                         We highly estimate each customer and offer you to become one of them on very profitable terms. 
                         Everyone who orders coffee delivery for a month will receive a discount in the amount of <span>20%!</span>
                         <br><br>
-                        The promotion ends on <strong>July 10 at 00:00</strong>
+                        The promotion ends on <strong>July 10 at 23.59</strong>
                     </div>
                 </div>
                 <div class="promotion__timer _anim-items _anim-no-hide">
@@ -1180,29 +1254,28 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
         <div class="modal">
             <div class="modal__dialog">
                 <div class="modal__content">
-                    <div class="modal__close" data-close>&times;</div>  
-                    <div class="modal--img">
-                        <img src="img/coffee-page/aromostico_coffee-page.jpg" alt="aromistico">
-                    </div>
-                    <div class="coffee--descr-block">
-                        <div class="subtitle-black subtitle-9pt">About it</div>
-                        <div class="devider devider-black">
-                            <div class=" devider__line devider__line-black"></div>
-                            <img src="icons/3 coffee-beans-black.png" alt="3 coffee-beans">
-                            <div class="devider__line devider__line-black"></div>
-                        </div>
-                        <div class="subtitle__descr descr-mb modal-descr">
-                            <p><strong>Country:</strong>  Brasil</p>
-                            <p><strong>Description:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                            <p><strong>Price:</strong> <span> 16.99$</span></p>
-                        </div>
-                        <!-- <button class="btn btn-modal">Go to coffee page</button> -->
-                    </div>
+                    <form action="#">
+                        <div class="modal__close" data-close>&times;</div>
+                        <div class="modal__title">We will call you back as soon as possible!</div>
+                        <input required placeholder="Your name" name="name" type="text" class="modal__input">
+                        <input required placeholder="Your phone number" name="phone" type="phone" class="modal__input">
+                        <button class="btn btn_dark btn_min">Call me back</button>
+                    </form>
                 </div>
-            </div>   
-        </div> 
+            </div>
+        </div>
             `);
     });
+  }
+
+  afterRender() {
+    Object(_modules_animation__WEBPACK_IMPORTED_MODULE_3__["default"])();
+    Object(_modules_promTimer__WEBPACK_IMPORTED_MODULE_2__["default"])('.timer', '2021-07-11');
+    Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal');
+    Object(_modules_form__WEBPACK_IMPORTED_MODULE_7__["default"])('form');
+    Object(_modules_filter__WEBPACK_IMPORTED_MODULE_4__["default"])();
+    Object(_modules_calculator__WEBPACK_IMPORTED_MODULE_5__["default"])();
+    Object(_modules_search__WEBPACK_IMPORTED_MODULE_6__["default"])();
   }
 
 }
