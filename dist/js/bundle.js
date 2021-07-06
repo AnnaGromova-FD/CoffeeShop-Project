@@ -90,39 +90,18 @@
 /*!*********************************!*\
   !*** ./src/js/helpers/utils.js ***!
   \*********************************/
-/*! exports provided: parseRequestURL, postData */
+/*! exports provided: parseRequestURL */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "parseRequestURL", function() { return parseRequestURL; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "postData", function() { return postData; });
 const parseRequestURL = () => {
   const url = location.hash.slice(2),
         request = {};
   request.resource = url.split('/');
   return request;
 };
-
-const postData = async (url, data) => {
-  let res = await fetch(url, {
-    method: "POST",
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: data
-  });
-  return await res.json();
-}; // async function getResource(url) {
-//     let res = await fetch(url);
-//     if (!res.ok) {
-//         throw new Error(`Could not fetch ${url}, status: ${res.status}`);
-//     }
-//     return await res.json();
-// }
-
-
- // export {getResource};
 
 /***/ }),
 
@@ -154,8 +133,7 @@ window.onload = function () {
 
 const Routes = {
   '/': _views_home_page_component__WEBPACK_IMPORTED_MODULE_2__["HomePageComponent"],
-  '/select-coffee': _views_calc_page_component__WEBPACK_IMPORTED_MODULE_1__["CalcPage"] // '/coffee-page': CoffeePage,
-
+  '/select-coffee': _views_calc_page_component__WEBPACK_IMPORTED_MODULE_1__["CalcPage"]
 };
 
 function router() {
@@ -244,11 +222,7 @@ function animation() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-// import modal from './modal';
-// import {Error404} from '../views/error404';
 function calculator() {
-  //    const selectCoffee = document.getElementById('select-coffee');
-  //    selectCoffee.addEventListener('click', goToCoffePage);
   function goToCoffePage() {
     event.preventDefault();
 
@@ -315,43 +289,87 @@ function filter() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modal */ "./src/js/modules/modal.js");
-/* harmony import */ var _helpers_utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../helpers/utils */ "./src/js/helpers/utils.js");
-
 
 
 function forms(formsSelector) {
-  const forms = document.querySelectorAll(formsSelector);
+  const forms = document.querySelectorAll(formsSelector),
+        nameInput = document.getElementById('name'),
+        phoneInput = document.getElementById('tel');
   const message = {
     loading: '../img/form/spinner.svg',
-    success: 'Thank you! We\'ll contact you soon',
+    success: 'We will call you back as soon as possible!',
     failure: 'Something went wrong...'
   };
   forms.forEach(item => {
-    bindPostData(item);
+    postData(item);
   });
 
-  function bindPostData(form) {
+  function showError() {
+    nameInput.classList.add('invalid');
+    phoneInput.classList.add('invalid');
+    let error = document.createElement('div');
+    error.classList.add('error');
+    error.innerHTML = `invalid input's value`;
+    phoneInput.insertAdjacentElement('beforeBegin', error);
+    nameInput.insertAdjacentElement('beforeBegin', error);
+    nameInput.value = '';
+    phoneInput.value = '';
+    return false;
+  }
+
+  function clearError() {
+    let errors = document.querySelectorAll('.error');
+    errors.forEach(error => error.remove());
+  }
+
+  let nameInputRegEx = /[A-zА-Я\s]{2,12}/ig,
+      phoneInputRegEx = /^(\+?375-?|8-?0)\s?\(?(29|25|44|33)\)?-?\s?[1-9]\s?(\d{2}-?\s?){2}\d{2}$/;
+
+  function postData(form) {
     form.addEventListener('submit', e => {
+      let isValidNameInput = nameInputRegEx.test(nameInput.value.trim()),
+          isValidphoneInput = phoneInputRegEx.test(phoneInput.value.trim());
+
+      if (!isValidphoneInput || !isValidNameInput) {
+        console.log(isValidNameInput);
+        console.log(isValidphoneInput);
+        clearError();
+        showError();
+        e.preventDefault();
+        return false;
+      }
+
       e.preventDefault();
       let statusMessage = document.createElement('img');
       statusMessage.src = message.loading;
-      statusMessage.style.cssText = `
-                display: block;
-                margin: 0 auto;
-            `;
+      statusMessage.classList.add('message');
       form.insertAdjacentElement('afterend', statusMessage);
+      const request = new XMLHttpRequest();
+      request.open('POST', 'https://reqres.in/api/users');
+      request.setRequestHeader('Content-type', 'application/json');
       const formData = new FormData(form);
-      const json = JSON.stringify(Object.fromEntries(formData.entries()));
-      Object(_helpers_utils__WEBPACK_IMPORTED_MODULE_1__["postData"])('https://reqres.in/api/users', json).then(data => {
-        console.log(data);
-        showThanksModal(message.success);
-        statusMessage.remove();
-      }).catch(() => {
-        showThanksModal(message.failure);
-      }).finally(() => {
-        form.reset();
+      const object = {};
+      formData.forEach((value, key) => object[key] = value);
+      const json = JSON.stringify(object);
+      request.send(json);
+      request.addEventListener('load', () => {
+        let statusType = Math.round(request.status / 100);
+
+        if (statusType === 2) {
+          console.log(request.response);
+          showThanksModal(message.success);
+          statusMessage.remove();
+          form.reset();
+        } else {
+          showThanksModal(message.failure);
+        }
       });
-    });
+
+      request.onerror = function () {
+        console.error(this.status);
+        showThanksModal(message.failure);
+      };
+    }, false);
   }
 
   function showThanksModal(message) {
@@ -366,7 +384,7 @@ function forms(formsSelector) {
                 <div class="modal__title">${message}</div>
             </div>
         `;
-    document.querySelector('.modal').append(thanksModal);
+    document.querySelector('.modal').appendChild(thanksModal);
     setTimeout(() => {
       thanksModal.remove();
       prevModalDialog.classList.add('show');
@@ -412,7 +430,7 @@ function modal(triggerSelector, modalSelector) {
     btn.addEventListener('click', () => openModal(modalSelector));
   });
   modal.addEventListener('click', e => {
-    if (e.target === modal || e.target.getAttribute('data-close') == "") {
+    if (e.target === modal || e.target.getAttribute('data-close') == '') {
       closeModal(modalSelector);
     }
   });
@@ -681,166 +699,166 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       let html;
       html = `
             <section class="calculating calculating__page" id="calc-page">
-            <div class=" container calc-container">
-                <div class="title-no-anim title-no-frame">
-                    Lets select coffee to suit your personal taste
-                </div>
-                
-                <div class="calculating__field">
-                    <div class="calculating__subtitle">
-                        How do you usually brew your coffee?
+                <div class=" container calc-container">
+                    <div class="title-no-anim title-no-frame">
+                        Lets select coffee to suit your personal taste
                     </div>
-                    <div class="calculating__choose" id="how">
-                        <div id="press" data-filter="kenya" class="calculating__choose-item">French Press</div>
-                        <div id="machine" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Espresso machine</div>
-                        <div id="cazve" data-filter="columbia" class="calculating__choose-item">Cezve</div>
-                    </div>
-
-                    <div class="calculating__subtitle">
-                        What do you add to your coffee?
-                    </div>
-                    <div class="calculating__choose" id="addings">
-                        <div id ="milk" data-filter="columbia" class="calculating__choose-item calculating__choose-item_active">Milk</div>
-                        <div id="sugar" data-filter="brasil" class="calculating__choose-item">Sugar</div>
-                        <div id="syrop" data-filter="kenya" class="calculating__choose-item">Syrop</div>
-                        <div id="nothing" data-filter="brasil" class="calculating__choose-item">Nothing</div>
-                    </div>
-
-                    <div class="calculating__subtitle">
-                        Preffered coffee roast level
-                    </div>
-                    <div class="calculating__choose" id="roast">
-                        <div id="light" data-filter="kenya" class="calculating__choose-item">Light</div>
-                        <div id="medium" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Medium</div>
-                        <div id="dark" data-filter="columbia" class="calculating__choose-item">Dark</div>
-                    </div>
-
-                    <div class="calculating__subtitle">
-                        What coffee flavour do you preffer?
-                    </div>
-                    <div class="calculating__choose" id="flavour">
-                        <div id="bitter" data-filter="columbia" class="calculating__choose-item">Bitter</div>
-                        <div id="sweet" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Sweet</div>
-                        <div id="sour" data-filter="kenya" class="calculating__choose-item">Sour</div>
-                        <div id="solty" data-filter="columbia" class="calculating__choose-item">Solty</div>
-                        <div id="notsure" data-filter="brasil" class="calculating__choose-item">Not sure</div>
-                    </div>
-
-                    <div class="calculating__total">
-                        <div class="title-no-anim title-no-frame">
-                            We recommend:
+                    
+                    <div class="calculating__field">
+                        <div class="calculating__subtitle">
+                            How do you usually brew your coffee?
                         </div>
+                        <div class="calculating__choose" id="how">
+                            <div id="press" data-filter="kenya" class="calculating__choose-item">French Press</div>
+                            <div id="machine" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Espresso machine</div>
+                            <div id="cazve" data-filter="columbia" class="calculating__choose-item">Cezve</div>
+                        </div>
+
+                        <div class="calculating__subtitle">
+                            What do you add to your coffee?
+                        </div>
+                        <div class="calculating__choose" id="addings">
+                            <div id ="milk" data-filter="columbia" class="calculating__choose-item calculating__choose-item_active">Milk</div>
+                            <div id="sugar" data-filter="brasil" class="calculating__choose-item">Sugar</div>
+                            <div id="syrop" data-filter="kenya" class="calculating__choose-item">Syrop</div>
+                            <div id="nothing" data-filter="brasil" class="calculating__choose-item">Nothing</div>
+                        </div>
+
+                        <div class="calculating__subtitle">
+                            Preffered coffee roast level
+                        </div>
+                        <div class="calculating__choose" id="roast">
+                            <div id="light" data-filter="kenya" class="calculating__choose-item">Light</div>
+                            <div id="medium" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Medium</div>
+                            <div id="dark" data-filter="columbia" class="calculating__choose-item">Dark</div>
+                        </div>
+
+                        <div class="calculating__subtitle">
+                            What coffee flavour do you preffer?
+                        </div>
+                        <div class="calculating__choose" id="flavour">
+                            <div id="bitter" data-filter="columbia" class="calculating__choose-item">Bitter</div>
+                            <div id="sweet" data-filter="brasil" class="calculating__choose-item calculating__choose-item_active">Sweet</div>
+                            <div id="sour" data-filter="kenya" class="calculating__choose-item">Sour</div>
+                            <div id="solty" data-filter="columbia" class="calculating__choose-item">Solty</div>
+                            <div id="notsure" data-filter="brasil" class="calculating__choose-item">Not sure</div>
+                        </div>
+
+                        <div class="calculating__total">
+                            <div class="title-no-anim title-no-frame">
+                                We recommend:
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <div class="line"></div>
+
+            <section class="catalog">
+                <div class="container">
+                    <div class="subtitle-black subtitle-black__calc-page" id="our-coffee">Our coffee
+                    </div>
+                    
+                    <div class="coffee-block">
+                        <div class="coffee__item brasil">
+                            <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Solimo Coffee Beans 2 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Brazil
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>Order</button>
+                                <div class="coffee__item-price">10.73$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item kenya">
+                            <img src="img/tabs/presto.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Presto Coffee Beans 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Kenya
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>Order</button>
+                                <div class="coffee__item-price">15.99$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item brasil">
+                            <img src="img/tabs/aromistico.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                AROMISTICO Coffee 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Brasil
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>Order</button>
+                                <div class="coffee__item-price">6.99$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item columbia">
+                            <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Solimo Coffee Beans 2 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Columbia
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>Order</button>
+                                <div class="coffee__item-price">10.73$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item brasil" >
+                            <img src="img/tabs/presto.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                Presto Coffee Beans 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Brasil
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>Order</button>
+                                <div class="coffee__item-price">15.99$</div> 
+                            </div>
+                        </div>
+                        <div class="coffee__item kenya">
+                            <img src="img/tabs/aromistico.png" alt="aromistico">
+                            <h3 class="coffee__item-subtitle">
+                                AROMISTICO Coffee 1 kg
+                            </h3>
+                            <div class="coffee__item-country-name">
+                                Kenya
+                            </div>
+                            <div class="coffee__item--price-block">
+                                <button class="btn" data-modal>Order</button>
+                                <div class="coffee__item-price">6.99$</div> 
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-calc">
+                        <a href="">Back to main page</a>
+                    </button>  
+                </div>
+            </section>
+            <div class="modal">
+                <div class="modal__dialog">
+                    <div class="modal__content">
+                        <form action="#">
+                            <div class="modal__close" data-close>&times;</div>
+                            <div class="modal__title"></div>
+                            <input required  id="name" minlength="2" maxlength="12" placeholder="Your name" name="name" type="text" class="modal__input">
+                            <input required id="tel" placeholder="Your phone number" name="phone" type="phone" class="modal__input">
+                            <button class="btn">Call me back</button>
+                        </form>
                     </div>
                 </div>
             </div>
-        </section>
-
-        <div class="line"></div>
-
-        <section class="catalog">
-            <div class="container">
-                <div class="subtitle-black subtitle-black__calc-page" id="our-coffee">Our coffee
-                </div>
-                
-                <div class="coffee-block">
-                    <div class="coffee__item brasil">
-                        <img src="img/tabs/solimo_2pack.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Solimo Coffee Beans 2 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Brazil
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>Order</button>
-                            <div class="coffee__item-price">10.73$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item kenya">
-                        <img src="img/tabs/presto.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Presto Coffee Beans 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Kenya
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>Order</button>
-                            <div class="coffee__item-price">15.99$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item brasil">
-                        <img src="img/tabs/aromistico.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            AROMISTICO Coffee 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Brasil
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>Order</button>
-                            <div class="coffee__item-price">6.99$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item columbia">
-                        <img src="img/tabs/solimo_2pack.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Solimo Coffee Beans 2 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Columbia
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>Order</button>
-                            <div class="coffee__item-price">10.73$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item brasil" >
-                        <img src="img/tabs/presto.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            Presto Coffee Beans 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Brasil
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>Order</button>
-                            <div class="coffee__item-price">15.99$</div> 
-                        </div>
-                    </div>
-                    <div class="coffee__item kenya">
-                        <img src="img/tabs/aromistico.png" alt="aromistico">
-                        <h3 class="coffee__item-subtitle">
-                            AROMISTICO Coffee 1 kg
-                        </h3>
-                        <div class="coffee__item-country-name">
-                            Kenya
-                        </div>
-                        <div class="coffee__item--price-block">
-                            <button class="btn" data-modal>Order</button>
-                            <div class="coffee__item-price">6.99$</div> 
-                        </div>
-                    </div>
-                </div>
-                <button class="btn btn-calc">
-                   <a href="">Back to main page</a>
-                </button>  
-            </div>
-        </section>
-        <div class="modal">
-            <div class="modal__dialog">
-                <div class="modal__content">
-                    <form action="#">
-                        <div class="modal__close" data-close>&times;</div>
-                        <div class="modal__title">We will call you back as soon as possible!</div>
-                        <input required placeholder="Your name" name="name" type="text" class="modal__input">
-                        <input required placeholder="Your phone number" name="phone" type="phone" class="modal__input">
-                        <button class="btn btn_dark btn_min">Call me back</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-        `;
+            `;
       resolve(html);
       reject('error');
     });
@@ -971,8 +989,8 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                 <div class="header__logo">
                 </div>
                 <nav class="header__links">
-                    <a href="#promotion">Promotion</a>
-                    <a href="#our-coffee">Our coffee</a>
+                    <a href="#/promotion">Promotion</a>
+                    <a href="#/our-coffee">Our coffee</a>
                     <a href="#/select-coffee">Select coffee</a>
                 </nav>
             </div>
@@ -1239,9 +1257,9 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                     <div class="footer__logo">
                     </div>
                     <nav class="header__links black-links">
-                        <a href="#promotion">Promotion</a>
-                        <a href="#our-coffee">Our coffee</a>
-                        <a href="#select coffee">Select coffee</a>
+                        <a href="#/promotion">Promotion</a>
+                        <a href="#/our-coffee">Our coffee</a>
+                        <a href="#/select-coffee">Select coffee</a>
                     </nav>
             </div>
             <div class="devider devider-black">
@@ -1256,10 +1274,10 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                 <div class="modal__content">
                     <form action="#">
                         <div class="modal__close" data-close>&times;</div>
-                        <div class="modal__title">We will call you back as soon as possible!</div>
-                        <input required placeholder="Your name" name="name" type="text" class="modal__input">
-                        <input required placeholder="Your phone number" name="phone" type="phone" class="modal__input">
-                        <button class="btn btn_dark btn_min">Call me back</button>
+                        <div class="modal__title"></div>
+                        <input required id="name" minlength="2" maxlength="12" placeholder="Your name" name="name" type="text" class="modal__input">
+                        <input required id="tel" minlength="7" maxlength="19" placeholder="Your phone number" name="phone" type="phone" class="modal__input">
+                        <button class="btn">Call me back</button>
                     </form>
                 </div>
             </div>
