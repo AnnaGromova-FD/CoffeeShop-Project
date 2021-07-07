@@ -123,7 +123,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // import {Hilitor} from './modules/search';
 
-window.onload = function () {
+window.onload = () => {
   document.body.classList.add('loaded_hiding');
   window.setTimeout(function () {
     document.body.classList.add('loaded');
@@ -300,9 +300,7 @@ function forms(formsSelector) {
     success: 'We will call you back as soon as possible!',
     failure: 'Something went wrong...'
   };
-  forms.forEach(item => {
-    postData(item);
-  });
+  forms.forEach(item => postData(item));
 
   function showError() {
     nameInput.classList.add('invalid');
@@ -323,7 +321,7 @@ function forms(formsSelector) {
   }
 
   let nameInputRegEx = /[A-zА-Я\s]{2,12}/ig,
-      phoneInputRegEx = /^(\+?375-?|8-?0)\s?\(?(29|25|44|33)\)?-?\s?[1-9]\s?(\d{2}-?\s?){2}\d{2}$/;
+      phoneInputRegEx = /^(\+?375-?|8-?\s?0)\s?\(?(29|25|44|33)\)?-?\s?[1-9]\s?(\d{2}-?\s?){2}\d{2}$/;
 
   function postData(form) {
     form.addEventListener('submit', e => {
@@ -331,8 +329,6 @@ function forms(formsSelector) {
           isValidphoneInput = phoneInputRegEx.test(phoneInput.value.trim());
 
       if (!isValidphoneInput || !isValidNameInput) {
-        console.log(isValidNameInput);
-        console.log(isValidphoneInput);
         clearError();
         showError();
         e.preventDefault();
@@ -353,19 +349,24 @@ function forms(formsSelector) {
       const json = JSON.stringify(object);
       request.send(json);
       request.addEventListener('load', () => {
-        let statusType = Math.round(request.status / 100);
+        try {
+          let statusType = Math.round(request.status / 100);
 
-        if (statusType === 2) {
-          console.log(request.response);
-          showThanksModal(message.success);
-          statusMessage.remove();
-          form.reset();
-        } else {
-          showThanksModal(message.failure);
+          if (statusType === 2) {
+            console.log(request.response);
+            showThanksModal(message.success);
+            statusMessage.remove();
+            form.reset();
+          } else {
+            showThanksModal(message.failure);
+          }
+        } catch {
+          console.error(this.status);
+          console.log(message.failure);
         }
       });
 
-      request.onerror = function () {
+      request.onerror = () => {
         console.error(this.status);
         showThanksModal(message.failure);
       };
@@ -492,10 +493,7 @@ function promTimer(id, deadline) {
       hours.innerHTML = getZero(t.hours);
       minutes.innerHTML = getZero(t.minutes);
       seconds.innerHTML = getZero(t.seconds);
-
-      if (t.total <= 0) {
-        clearInterval(timeInterval);
-      }
+      t.total <= 0 && clearInterval(timeInterval);
     }
   }
 
@@ -865,26 +863,26 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   }
 
   afterRender() {
-    this.getInformation('#how div', 'calculating__choose-item_active');
-    this.getInformation('#addings div', 'calculating__choose-item_active');
-    this.getInformation('#roast div', 'calculating__choose-item_active');
-    this.getInformation('#flavour div', 'calculating__choose-item_active');
+    this.getInformation('how', 'calculating__choose-item_active');
+    this.getInformation('addings', 'calculating__choose-item_active');
+    this.getInformation('roast', 'calculating__choose-item_active');
+    this.getInformation('flavour', 'calculating__choose-item_active');
     Object(_modules_modal__WEBPACK_IMPORTED_MODULE_1__["default"])('[data-modal]', '.modal');
     Object(_modules_form__WEBPACK_IMPORTED_MODULE_2__["default"])('form');
   }
 
-  getInformation(selector, activeClass) {
-    const chooseBlock = document.querySelectorAll(selector),
+  getInformation(id, activeClass) {
+    const chooseBlock = document.getElementById(id),
           coffeeItems = document.querySelectorAll('.coffee__item');
-    chooseBlock.forEach(elem => {
-      elem.addEventListener('click', e => {
+    chooseBlock.addEventListener('click', e => {
+      let target = e.target;
+
+      if (target.classList.contains('calculating__choose-item')) {
         const currentCategory = e.target.dataset.filter;
-        chooseBlock.forEach(elem => {
-          elem.classList.remove(activeClass);
-        });
-        e.target.classList.add(activeClass);
+        chooseBlock.getElementsByClassName(activeClass)[0].classList.remove(activeClass);
+        target.classList.add(activeClass);
         filter(currentCategory, coffeeItems);
-      });
+      }
 
       function filter(category, items) {
         items.forEach(item => {
