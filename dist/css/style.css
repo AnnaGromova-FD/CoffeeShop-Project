@@ -19,6 +19,7 @@ a {
   max-width: 750px;
   margin: 0 auto;
   padding: 0 10px;
+  position: relative;
 }
 
 .title {
@@ -379,7 +380,7 @@ a {
 .header-block {
   display: flex;
   position: relative;
-  width: 445px;
+  width: 280px;
   justify-content: space-between;
   padding-top: 30px;
   padding-left: 149px;
@@ -464,9 +465,7 @@ a {
   max-width: 1440px;
   min-height: 495px;
   overflow: hidden;
-  opacity: 0;
-  transform: translate3d(0, 0, 80%);
-  transition: all 1.8s;
+  position: relative;
 }
 
 .our-best.active {
@@ -476,9 +475,26 @@ a {
 
 .coffee-block {
   display: flex;
+  position: relative;
   flex-wrap: wrap;
   justify-content: center;
   gap: 1.5em;
+}
+
+.coffee-block__slider {
+  width: 100%;
+  margin: 0 auto;
+  justify-content: start;
+  overflow: hidden;
+}
+
+.coffee-block__inner {
+  display: flex;
+  position: relative;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  gap: 1.5em;
+  transition: all 0.5s ease 0s;
 }
 
 .coffee__item {
@@ -488,7 +504,12 @@ a {
   border-radius: 8px;
   padding: 22px 35px;
   filter: drop-shadow(5px 5px 15px rgba(0, 0, 0, 0.25));
-  margin-bottom: 60px;
+  margin-bottom: 50px;
+  margin-top: 28px;
+}
+
+.coffee__item.best {
+  justify-content: flex-start;
 }
 
 .coffee__item img {
@@ -511,6 +532,53 @@ a {
 .coffee__item-descr {
   margin-top: 14px;
   text-overflow: ellipsis;
+}
+
+.carousel-indicators {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+  display: flex;
+  justify-content: center;
+  margin-right: 15%;
+  margin-left: 15%;
+  list-style: none;
+}
+
+.dot {
+  box-sizing: content-box;
+  flex: 0 1 auto;
+  width: 30px;
+  height: 6px;
+  margin-right: 3px;
+  margin-left: 3px;
+  cursor: pointer;
+  background-color: saddlebrown;
+  background-clip: padding-box;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  opacity: 0.5;
+  transition: opacity 0.6s ease;
+}
+
+.dot.active {
+  opacity: 1;
+}
+
+.offer__slider-prev {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  left: 5%;
+}
+
+.offer__slider-next {
+  position: absolute;
+  cursor: pointer;
+  top: 50%;
+  right: 5%;
 }
 
 .about-our-beans {
@@ -962,6 +1030,15 @@ a {
 
   .promotion__timer {
     flex-basis: 60%;
+  }
+}
+@media all and (max-width: 869px) {
+  .offer__slider-prev {
+    display: none;
+  }
+
+  .carousel-indicators {
+    display: none;
   }
 }
 @media all and (max-width: 840px) {
