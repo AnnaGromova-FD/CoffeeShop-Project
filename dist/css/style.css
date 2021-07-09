@@ -373,7 +373,7 @@ a {
   background: url("../img/main-page/desk-791178_1920.jpg") center right/cover no-repeat;
   background-attachment: fixed;
   max-width: 1440px;
-  height: 560px;
+  min-height: 400px;
   color: #ffffff;
 }
 
@@ -407,7 +407,7 @@ a {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 125px;
+  padding-top: 55px;
   margin: 0 auto;
 }
 
@@ -514,6 +514,8 @@ a {
 
 .coffee__item img {
   object-fit: scale-down;
+  width: 151px;
+  height: 134px;
 }
 
 .coffee__item:hover {
@@ -571,14 +573,14 @@ a {
   position: absolute;
   cursor: pointer;
   top: 50%;
-  left: 5%;
+  left: 3%;
 }
 
 .offer__slider-next {
   position: absolute;
   cursor: pointer;
   top: 50%;
-  right: 5%;
+  right: 3%;
 }
 
 .about-our-beans {
@@ -698,7 +700,7 @@ a {
 }
 
 .btn-calc {
-  width: fit-content;
+  width: auto;
   display: block;
   padding: 0 50px;
   align-self: center;
@@ -792,6 +794,7 @@ a {
   max-width: 1140px;
   padding: 20px 0;
   margin-bottom: 20px;
+  overflow: hidden;
 }
 
 .promotion__block {
@@ -1034,6 +1037,10 @@ a {
 }
 @media all and (max-width: 869px) {
   .offer__slider-prev {
+    display: none;
+  }
+
+  .offer__slider-next {
     display: none;
   }
 

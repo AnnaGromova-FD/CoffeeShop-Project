@@ -267,16 +267,17 @@ function forms(formsSelector) {
         nameInput = document.getElementById('name'),
         phoneInput = document.getElementById('tel');
   const message = {
-    loading: `../img/form/spinner.svg`,
+    loading: `img/form/spinner.svg`,
     success: `We will call you back as soon as possible!`,
     failure: `Something went wrong...`
   };
   forms.forEach(item => postData(item));
   let nameInputRegEx = /[A-zА-Я\s]{2,12}/ig,
-      phoneInputRegEx = /^((\+?375-?|8-?\s?0\s?))?\(?0?(29|25|44|33)\)?-?\s?[1-9]\s?(\d{2}-?\s?){2}\d{2}$/;
+      phoneInputRegEx = /^((\+?375-?|8-?\s?0\s?))?\s?\(?0?(29|25|44|33)\)?-?\s?[1-9]\s?(\d{2}-?\s?){2}\d{2}$/;
 
   function postData(form) {
     form.addEventListener('submit', e => {
+      e.preventDefault();
       let isValidNameInput = nameInputRegEx.test(nameInput.value.trim()),
           isValidphoneInput = phoneInputRegEx.test(phoneInput.value.trim());
 
@@ -285,50 +286,49 @@ function forms(formsSelector) {
         showError(nameInput);
         e.preventDefault();
         return false;
-      }
-
-      if (!isValidphoneInput) {
+      } else if (!isValidphoneInput) {
         clearError();
         showError(phoneInput);
         e.preventDefault();
         return false;
-      }
+      } else sendRequest();
 
-      e.preventDefault();
-      let statusMessage = document.createElement('img');
-      statusMessage.src = message.loading;
-      statusMessage.classList.add('message');
-      form.insertAdjacentElement('afterend', statusMessage);
-      const request = new XMLHttpRequest();
-      request.open('POST', 'https://reqres.in/api/users');
-      request.setRequestHeader('Content-type', 'application/json');
-      const formData = new FormData(form);
-      const object = {};
-      formData.forEach((value, key) => object[key] = value);
-      const json = JSON.stringify(object);
-      request.send(json);
-      request.addEventListener('load', () => {
-        try {
-          let statusType = Math.round(request.status / 100);
+      function sendRequest() {
+        let statusMessage = document.createElement('img');
+        statusMessage.src = message.loading;
+        statusMessage.classList.add('message');
+        form.insertAdjacentElement('afterend', statusMessage);
+        const request = new XMLHttpRequest();
+        request.open('POST', 'https://reqres.in/api/users');
+        request.setRequestHeader('Content-type', 'application/json');
+        const formData = new FormData(form);
+        const object = {};
+        formData.forEach((value, key) => object[key] = value);
+        const json = JSON.stringify(object);
+        request.send(json);
+        request.addEventListener('load', () => {
+          try {
+            let statusType = Math.round(request.status / 100);
 
-          if (statusType === 2) {
-            console.log(request.response);
-            showThanksModal(message.success);
-            statusMessage.remove();
-            form.reset();
-          } else {
+            if (statusType === 2) {
+              console.log(request.response);
+              showThanksModal(message.success);
+              statusMessage.remove();
+              form.reset();
+            } else {
+              showThanksModal(message.failure);
+            }
+          } catch {
+            console.error(request.status);
             showThanksModal(message.failure);
           }
-        } catch {
-          console.error(this.status);
-          console.log(message.failure);
-        }
-      });
+        });
 
-      request.onerror = () => {
-        console.error(this.status);
-        showThanksModal(message.failure);
-      };
+        request.onerror = () => {
+          console.error(request.status);
+          showThanksModal(message.failure);
+        };
+      }
     }, false);
   }
 
@@ -765,8 +765,7 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     //     initLocalSettings('roast', 'calculating__choose-item_active');
     //     initLocalSettings('flavour', 'calculating__choose-item_active');
     // } else {
-    //     // chosen = 'brasil';
-    //     localStorage.setItem('chosen', 'brasil');
+    //     localStorage.setItem('chosen', 'activeClass');
     // }
     // function initLocalSettings(id, activeClass) {
     //     const elements = document.getElementById(id);
@@ -933,7 +932,6 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                 </div>
             </section>
             
-            
             <section class="our-best">
                 <div class="offer__slider-prev">
                     <img src="icons/left.svg" alt="prev">
@@ -954,7 +952,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                                     <div class="coffee__item-price">10.73$</div> 
                                 </div>
                             </div>
-                            <div class="coffee__item best">
+                            <div class="coffee__item">
                                 <img src="img/tabs/presto.png" alt="aromistico">
                                 <h3 class="coffee__item-subtitle">
                                     Presto Coffee Beans 1 kg
@@ -964,7 +962,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                                     <div class="coffee__item-price">15.99$</div> 
                                 </div>
                             </div>
-                            <div class="coffee__item best">
+                            <div class="coffee__item">
                                 <img src="img/tabs/aromistico.png" alt="aromistico">
                                 <h3 class="coffee__item-subtitle">
                                     AROMISTICO Coffee 1 kg
@@ -975,7 +973,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                                 </div>
                             </div>
                             <div class="coffee__item best">
-                                <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                                <img src="img/slider/img_10.jpeg" alt="aromistico">
                                 <h3 class="coffee__item-subtitle">
                                     Solimo Coffee Beans 2 kg
                                 </h3>
@@ -995,7 +993,7 @@ class HomePageComponent extends _component__WEBPACK_IMPORTED_MODULE_0__["Compone
                                 </div>
                             </div>
                             <div class="coffee__item best">
-                                <img src="img/tabs/solimo_2pack.png" alt="aromistico">
+                                <img src="img/tabs/presto.png" alt="aromistico">
                                 <h3 class="coffee__item-subtitle">
                                     Solimo Coffee Beans 2 kg
                                 </h3>
