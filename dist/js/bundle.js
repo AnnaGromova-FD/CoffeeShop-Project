@@ -757,41 +757,14 @@ class CalcPage extends _component__WEBPACK_IMPORTED_MODULE_0__["Component"] {
 
   setActiveAndFilter(id, activeClass) {
     const chooseBlock = document.getElementById(id),
-          coffeeItems = document.querySelectorAll('.coffee__item'); // let chosen;
-    // if(localStorage.getItem('chosen')) {
-    //     chosen = localStorage.getItem('chosen');
-    //     initLocalSettings('how', 'calculating__choose-item_active');
-    //     initLocalSettings('addings', 'calculating__choose-item_active');
-    //     initLocalSettings('roast', 'calculating__choose-item_active');
-    //     initLocalSettings('flavour', 'calculating__choose-item_active');
-    // } else {
-    //     localStorage.setItem('chosen', 'activeClass');
-    // }
-    // function initLocalSettings(id, activeClass) {
-    //     const elements = document.getElementById(id);
-    //     elements.forEach(elem => {
-    //         elem.classList.remove(activeClass);
-    //         if (elem.getAttribute('id') === localStorage.getItem('chosen')) {
-    //             elem.classList.add(activeClass);
-    //         }
-    //     });
-    // }
-    // initLocalSettings('how', 'calculating__choose-item_active');
-    // initLocalSettings('addings', 'calculating__choose-item_active');
-    // initLocalSettings('roast', 'calculating__choose-item_active');
-    // initLocalSettings('flavour', 'calculating__choose-item_active');
-
+          coffeeItems = document.querySelectorAll('.coffee__item');
     chooseBlock.addEventListener('click', e => {
       let target = e.target;
 
       if (target.classList.contains('calculating__choose-item')) {
-        // let categories = [];
         const currentCategory = e.target.dataset.filter;
         chooseBlock.getElementsByClassName(activeClass)[0].classList.remove(activeClass);
-        target.classList.add(activeClass); //     categories.push(currentCategory);
-        //    console.log(categories);
-        // localStorage.setItem('chosen', JSON.stringify(categories));
-
+        target.classList.add(activeClass);
         filter(currentCategory, coffeeItems);
       }
 
