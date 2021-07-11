@@ -263,7 +263,7 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function forms(formsSelector) {
-  const forms = document.querySelectorAll(formsSelector),
+  const form = document.querySelector(formsSelector),
         nameInput = document.getElementById('name'),
         phoneInput = document.getElementById('tel');
   const message = {
@@ -271,9 +271,9 @@ function forms(formsSelector) {
     success: `We will call you back as soon as possible!`,
     failure: `Something went wrong...`
   };
-  forms.forEach(item => postData(item));
-  let nameInputRegEx = /[A-zА-Я\s]{2,12}/ig,
+  let nameInputRegEx = /[a-zА-Я\s]{2,12}/i,
       phoneInputRegEx = /^((\+?375-?|8-?\s?0\s?))?\s?\(?0?(29|25|44|33)\)?-?\s?[1-9]\s?(\d{2}-?\s?){2}\d{2}$/;
+  postData(form);
 
   function postData(form) {
     form.addEventListener('submit', e => {
@@ -284,14 +284,20 @@ function forms(formsSelector) {
       if (!isValidNameInput) {
         clearError();
         showError(nameInput);
-        e.preventDefault();
-        return false;
-      } else if (!isValidphoneInput) {
+      }
+
+      if (!isValidphoneInput) {
         clearError();
         showError(phoneInput);
-        e.preventDefault();
-        return false;
-      } else sendRequest();
+      }
+
+      if (!isValidNameInput && !isValidphoneInput) {
+        clearError();
+        showError(nameInput);
+        showError(phoneInput);
+      }
+
+      if (isValidNameInput && isValidphoneInput) sendRequest();
 
       function sendRequest() {
         let statusMessage = document.createElement('img');
@@ -333,14 +339,35 @@ function forms(formsSelector) {
   }
 
   function showError(input) {
-    input.classList.add('invalid');
     let error = document.createElement('div');
+    let error2 = document.createElement('div');
     error.classList.add('error');
-    error.innerHTML = input === nameInput ? `Type 2 to 12 letters, please` : `Type your phone with code, please`;
-    input.insertAdjacentElement('beforeBegin', error);
-    input.value = '';
+    error2.classList.add('error');
+
+    if (input === nameInput) {
+      nameInput.classList.add('invalid');
+      error.innerHTML = `Type 2 to 12 letters, please`;
+      nameInput.value = '';
+    }
+
+    if (input === phoneInput) {
+      phoneInput.classList.add('invalid');
+      error2.innerHTML = `Type your phone with code, please`;
+      phoneInput.value = '';
+    }
+
+    if (input === nameInput && input === phoneInput) {
+      input.classList.add('invalid');
+      error.innerHTML = `Type 2 to 12 letters, please`;
+      error2.innerHTML = `Type your phone with code, please`;
+      input.value = '';
+    }
+
+    nameInput.insertAdjacentElement('beforeBegin', error);
+    phoneInput.insertAdjacentElement('beforeBegin', error2);
     setTimeout(() => {
-      input.classList.remove('invalid');
+      nameInput.classList.remove('invalid');
+      phoneInput.classList.remove('invalid');
       clearError();
     }, 3000);
     return false;
@@ -369,7 +396,7 @@ function forms(formsSelector) {
       prevModalDialog.classList.add('show');
       prevModalDialog.classList.remove('hide');
       Object(_modal__WEBPACK_IMPORTED_MODULE_0__["closeModal"])('.modal');
-    }, 4000);
+    }, 3000);
   }
 }
 
@@ -389,10 +416,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "closeModal", function() { return closeModal; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "openModal", function() { return openModal; });
 function closeModal(modalSelector) {
-  const modal = document.querySelector(modalSelector);
+  const modal = document.querySelector(modalSelector),
+        form = document.querySelector('form');
   modal.classList.add('hide');
   modal.classList.remove('show');
   document.body.style.overflow = '';
+  form.reset();
 }
 
 function openModal(modalSelector) {
@@ -446,7 +475,7 @@ function promTimer(id, deadline) {
     return {
       'total': t,
       'days': days,
-      'hours': hours,
+      'hours': hours - 3,
       'minutes': minutes,
       'seconds': seconds
     };
